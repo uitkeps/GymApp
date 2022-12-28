@@ -1,0 +1,153 @@
+﻿@model App.Models.Classes.Class
+@using App.Menu
+@inject AdminSidebarService _AdminSidebarService
+@{
+    Layout = "_LayoutAdmin";
+    ViewData["Title"] = "Thêm khóa tập mới";
+    var listRoom = ViewData["rooms"] as SelectList;
+    var listInstructor = ViewData["instructors"] as SelectList;
+    var listHours = ViewData["listHours"] as IEnumerable<SelectListItem>;
+}
+
+
+<style>
+
+    .custom-file-button input[type=file] {
+        margin-left: -2px !important;
+    }
+
+    .custom-file-button input[type=file]::-webkit-file-upload-button {
+        display: none;
+    }
+
+    .custom-file-button input[type=file]::file-selector-button {
+        display: none;
+    }
+
+    .custom-file-button:hover label {
+        background-color: #dde0e3;
+        cursor: pointer;
+    }
+
+</style>
+
+<div class="container-fluid">
+    <h1 class="mt-4">Tạo mới khóa tập</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a asp-action="Index" asp-controller="AdminCP" asp-area="AdminCP">Trang chủ</a></li>
+        <li class="breadcrumb-item active">Tạo mới khóa tập</li>
+    </ol>
+    <div class="card mb-4">
+        <div class="card-header">
+            <a class="btn btn-success" asp-action="Index">Danh sách khóa tập</a>
+        </div>
+
+        <div class="card-body">
+            <div class="col-md-4">
+                <form asp-action="Create" enctype="multipart/form-data">
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="ClassTitle" class="control-label"></label>
+                        <input asp-for="ClassTitle" class="form-control" />
+                        <span asp-validation-for="ClassTitle" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="ClassDate" class="control-label"></label>
+                        <input asp-for="ClassDate" class="form-control">
+                        <span asp-validation-for="ClassDate" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="ClassPeriod" class="control-label"></label>
+                        <select asp-for="ClassPeriod" class="form-control" asp-items="listHours"></select>
+                        <span asp-validation-for="ClassPeriod" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="ClassCost" class="control-label"></label>
+                        <input asp-for="ClassCost" class="form-control">
+                        <span asp-validation-for="ClassCost" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="RoomId" class="control-label"></label>
+                        <select asp-for="RoomId" asp-items="listRoom" class="form-control" id="hours"></select>
+                        <span asp-validation-for="RoomId" class="text-danger"></span>
+                    </div> 
+                    <div class="form-group">
+                        <label asp-for="InstructorId" class="control-label"></label>
+                        <select asp-for="InstructorId" asp-items="listInstructor" class="form-control"></select>
+                        <span asp-validation-for="InstructorId" class="text-danger"></span>
+                    </div>
+                    
+                    <div class="col-md-12 btn-group pb-2">
+
+                        <div class="form-group col-4 p-0">
+
+                            <label asp-for="ImageFile" class="control-label"></label>				                                                
+
+                            <img id="PreviewPhoto" src="/contents/nophoto.png" alt="Logo Image"
+                                 width="125" height="125"/>
+					    
+                            <span asp-validation-for="PhotoUrl" class="text-danger"></span>
+
+                        </div>
+
+                        <div class="col-1 p-0">
+                        </div>
+
+                        <div class="form-group col-7 p-0">
+                            <div class="input-group custom-file-button mt-5 pt-5">
+                                <input asp-for="ImageFile" class="form-control custom-file-input" id="customFile">
+                                <label class="input-group-text" for="customFile">Browse</label>
+                            </div>				
+                        </div>
+
+                    </div>
+                    <div class="form-group pt-0 mt-0">
+                        <div ID="HiddenDiv" style="visibility: hidden;">
+                            <input asp-for="PhotoUrl" id="PhotoUrl" value=""/>                        
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="submit" value="Thêm khóa tập" class="btn btn-primary" />
+                    </div>
+                    
+                    
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@{
+    var summernote  = new App.Models.Summernote("#Content");
+}
+<partial name="_Summernote" model="summernote" />
+
+@{
+    _AdminSidebarService.SetActive("Class", "Create", "Class");
+}
+@section Sidebar
+    {
+    @Html.Raw(_AdminSidebarService.renderHtml())
+}
+
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+            $("#hours option:first-child").attr("disabled", "disabled");
+            });
+        $(".custom-file-input").on("change", function () {
+
+                var fileName = $(this).val().split("\\").pop();           
+
+                document.getElementById('PreviewPhoto').src = window.URL.createObjectURL(this.files[0]);
+
+                document.getElementById('PhotoUrl').value = fileName;     
+
+        });
+    
+    </script>
+}
+

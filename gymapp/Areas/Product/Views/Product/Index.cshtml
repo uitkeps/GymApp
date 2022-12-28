@@ -1,0 +1,101 @@
+﻿@model IEnumerable<App.Models.Products.Product>
+@using App.Menu
+@inject AdminSidebarService _AdminSidebarService
+
+@{
+    Layout = "_LayoutAdmin";
+    ViewData["Title"] = "Danh sách sản phẩm";
+}
+
+<div class="container-fluid">
+    <h1 class="mt-4">Danh sách sản phẩm</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a asp-action="Index" asp-controller="AdminCP" asp-area="AdminCP">Trang chủ</a></li>
+        <li class="breadcrumb-item active">Danh sách sản phẩm</li>
+    </ol>
+    <partial name="_AlertMessage" />
+    <div class="card mb-12">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-md-6 col-xs-12">
+                    <a class="btn btn-success" asp-action="Create">Tạo mới</a>
+                </div>
+                <div class="col-md-6 col-xs-12">
+                    <form asp-action="Index" method="get">
+                        <div class="row">
+                            <div class="col-md-9">
+                                <input type="text" value="@ViewBag.Keyword" name="keyword" class="form-control" />
+                            </div>
+                            <div class="cold-md-3">
+                                <button type="submit" class="btn btn-primary">Tìm</button>
+                                <button type="button" onclick="window.location.href='/admin/product/index'" class="btn btn-dark">Reset</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>STT</th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.ProductName)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Author)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Price)
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @(++ViewBag.postIndex)
+                                </td>
+                                <td>
+                                    <a asp-action="Edit" asp-route-id="@item.ProductID">
+                                        @Html.DisplayFor(modelItem => item.ProductName)
+                                    </a> 
+                                    <br>
+                                    <small>
+                                        @item.Category.Title
+                                    </small>
+                
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Author.UserName)
+                                </td>
+                                <th>
+                                    @Math.Round(item.Price, 0) VNĐ
+                                </th>
+                                <td>
+                                    <a class="btn btn-info btn-sm" asp-action="Details" asp-route-id="@item.ProductID">Chi tiết</a>
+                                    <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@item.ProductID">Xóa</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <partial name="_PagingXTL" model="@ViewBag.pagingModel" />
+        </div>
+    </div>
+</div>
+
+
+@{
+    _AdminSidebarService.SetActive("Product", "Index", "Product");
+}
+@section Sidebar
+{
+    @Html.Raw(_AdminSidebarService.renderHtml())
+}

@@ -1,0 +1,219 @@
+﻿@using App.Models.Payments
+@model Payment
+@{
+    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+    ViewData["Title"] = "Xác nhận đơn hàng";
+    var classModel = ViewBag.classModel as Class;
+    var user = ViewBag.user as AppUser;
+}
+
+<!-- Breadcrumb Section Begin -->
+    <section class="breadcrumb-section set-bg" data-setbg="/img/breadcrumb/classes-breadcrumb.jpg">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="breadcrumb-text">
+                        <h2>Xác nhận đơn hàng</h2>
+                        <div class="breadcrumb-option">
+                            <a asp-action="Index" asp-controller="Home"><i class="fa fa-home"></i> Trang chủ</a>
+                            <a>Giỏ hàng</a><span>Xác nhận đơn hàng</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Breadcrumb Section End -->
+
+
+    <section class="ftco-section spad">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-xl-7 ftco-animate">
+                    <form action="#" class="billing-form">
+                        <h3 class="mb-4 billing-heading">Chi tiết đơn hàng</h3>
+                        <div class="row align-items-end">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="firstname">Họ và tên</label>
+                                    <input class="form-control" id="hoten" placeholder="Vui lòng nhập họ tên...">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="lastname">Email</label>
+                                    <input class="form-control" id="email" placeholder="Vui lòng nhập email...">
+                                </div>
+                            </div>
+                            <div class="w-100"></div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="country">Địa chỉ</label>
+                                    <input class="form-control" id="diachi" placeholder="Vui lòng nhập địa chỉ...">
+                                </div>
+                            </div>
+                            <div class="w-100"></div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="phone">Số điện thoại</label>
+                                    <input class="form-control" id="sdt" placeholder="Vui lòng nhập số điện thoại...">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="data-setbg">Ngày đặt hàng</label>
+                                    <input type="datetime" class="form-control" id="ngdat" value="@DateTime.Today.ToString("yyyy-MM-dd")">
+                                </div>
+                            </div>
+                        </div>
+                    </form><!-- END -->
+                </div>
+                @*<form asp-action="Checkout" method="post">*@
+                    <div class="col-xl-5">
+                        <div class="row mt-5 pt-3">
+                            <div class="col-md-12 d-flex mb-5">
+                                <div class="cart-detail cart-total p-3 p-md-4">
+                                    <h3 class="billing-heading mb-4">Tổng đơn hàng</h3>
+                                    <p class="d-flex">
+                                        <span>Chi phí</span>
+                                        <span>@Math.Round(classModel.ClassCost, 0)đ</span>
+                                    </p>
+                                    <p class="d-flex">
+                                        <span>Giảm giá</span>
+                                        <span>0đ</span>
+                                    </p>
+                                    <hr>
+                                    <p class="d-flex total-price">
+                                        <span>Tổng</span>
+                                        <span>@Math.Round(classModel.ClassCost, 0)đ</span>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="cart-detail p-3 p-md-4">
+                                    <h3 class="billing-heading mb-4">Phương thức thanh toán</h3>
+                                    <div class="form-group">
+                                        <div class="col-md-12">
+                                            <div class="radio">
+                                                <label><input type="radio" name="optradio" class="mr-2" value="paypal"><i class="fa-brands fa-cc-paypal"></i> Thanh toán bằng Paypal</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-12">
+                                            <div class="radio">
+                                                <label><input type="radio" name="optradio" class="mr-2" value="trasau"><i class="fa-solid fa-wallet"></i> Trả sau</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-12">
+                                            <div class="checkbox">
+                                                <label><input type="checkbox" value="" id="dieukhoan" class="mr-2" > Tôi chấp nhận với mọi điều khoản</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <form asp-action="Checkout" method="post">
+                                        <input asp-for="DateCreated" value="@DateTime.Today.ToString("yyyy-MM-dd")" type="hidden" />
+                                        <input asp-for="TotalPrice" value="@Math.Round(classModel.ClassCost, 0)" type="hidden"/>
+                                        <input asp-for="PaymentMode" id="paymentmode" value="Trả sau" type="hidden" />
+                                        @*<input asp-for="DiscountId" value="null" type="hidden" />*@
+                                        <button type="submit" id="btn-submit" class="btn btn-primary btn-cart py-3 px-4" disabled="disabled">Thanh toán</button>
+                                    </form>
+                                    @*<p><a type="submit" class="btn btn-primary btn-cart py-3 px-4">Đặt hàng</a></p>*@
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                @*</form>*@
+                <!-- .col-md-8 -->
+            </div>
+        </div>
+    </section> 
+<!-- .section -->
+
+@section Scripts
+{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        $(document).ready(function () {
+            
+            
+            $('input[name="optradio"]').click(function () {
+                var result = $("input[name='optradio']:checked").val();
+                var PaymentMode = "Trả sau";
+                if (result == "paypal") {
+                    PaymentMode = "Paypal";
+                    console.log(PaymentMode);
+                }
+                $("#paymentmode").val(PaymentMode);
+            });
+            
+            $("#dieukhoan").click(function () {
+                if ($("#dieukhoan").is(":checked")) {
+                    $("#btn-submit").removeAttr('disabled');
+                }
+                else {
+                    //alert("Bạn chưa chấp nhận điều khoản");
+                    $("#btn-submit").attr('disabled', 'disabled');
+                }
+            });
+            
+            $("#btn-submit").click(function () {
+                    var hoten = $("#hoten").val();
+                    var diachi = $("#diachi").val();
+                    var sdt = $("#sdt").val();
+                    var ngdat = $("#ngdat").val();
+                    var email = $("#email").val();
+
+                    var temp = true;
+                    var regexPhone = /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/;
+                    var regexEmail = /^([\w-\.]+@@([\w-]+\.)+[\w-]{2,4})?$/;
+                    if (hoten == "" || diachi == "" || sdt == "" || ngdat == "" || email == "") {
+                        alert("Vui lòng nhập đầy đủ thông tin");
+                        temp = false;
+                        } 
+                    else if(!regexPhone.test(sdt) || sdt.length != 10)
+                    {
+                        alert("Số điện thoại không hợp lệ");
+                        temp = false;
+                    }
+                    else if(!regexEmail.test(email))
+                    {
+                        alert("Email không hợp lệ");
+                        temp = false;
+                    }
+
+                    if(temp == false) {
+                        return false;
+                    } 
+
+
+
+                    $.ajax({
+                        url: "/luu-thong-tin-dat-hang",
+                        type: "POST",
+                        data: {
+                            diachi: diachi,
+                            hoten: hoten,
+                            sodienthoai: sdt,
+                            email: email,
+                            ngaydathang: ngdat
+                        },
+                        success: function () {
+                        }
+                    });
+                
+                if ($("input[name='optradio']:checked").length == 0) {
+                    alert("Bạn chưa chọn phương thức thanh toán");
+                    return false;
+                }
+            });
+            
+        });
+    </script>
+}
+ 

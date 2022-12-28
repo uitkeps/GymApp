@@ -1,0 +1,68 @@
+﻿@model App.Models.Memberships.Membership
+@using App.Menu
+@inject AdminSidebarService _AdminSidebarService
+@{
+    Layout = "_LayoutAdmin";
+    ViewData["Title"] = "Thêm gói tập mới";
+}
+
+<div class="container-fluid">
+    <h1 class="mt-4">Tạo mới gói tập</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a asp-action="Index" asp-controller="AdminCP" asp-area="AdminCP">Trang chủ</a></li>
+        <li class="breadcrumb-item active">Tạo mới gói tập</li>
+    </ol>
+    <div class="card mb-4">
+        <div class="card-header">
+            <a class="btn btn-success" asp-action="Index">Danh sách gói tập</a>
+        </div>
+
+        <div class="card-body">
+            <div class="col-md-4">
+                <form asp-action="Create">
+                    <div asp-validation-summary="All" class="text-danger"></div>       
+
+                    <div class="form-group">
+                        <label asp-for="Level" class="control-label"></label>
+                        <input asp-for="Level" class="form-control" />
+                        <span asp-validation-for="Level" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Fee" class="control-label"></label>
+                        <input asp-for="Fee" class="form-control"></input>
+                        <span asp-validation-for="Fee" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Duration" class="control-label"></label>
+                        <input asp-for="Duration" class="form-control"></input>
+                        <span asp-validation-for="Duration" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Hours" class="control-label"></label>
+                        <input asp-for="Hours" class="form-control"></input>
+                        <span asp-validation-for="Hours" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Bonus" class="control-label"></label>
+                        <textarea asp-for="Bonus" class="form-control"></textarea>
+                        <span asp-validation-for="Bonus" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Tạo gói tập" class="btn btn-primary" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@{
+    _AdminSidebarService.SetActive("Membership", "Create", "Membership");
+}
+@section Sidebar
+    {
+    @Html.Raw(_AdminSidebarService.renderHtml())
+}
+
+

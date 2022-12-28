@@ -1,0 +1,84 @@
+﻿@model IEnumerable<App.Models.Classes.Room>
+@using App.Menu
+@inject AdminSidebarService _AdminSidebarService
+
+@{
+    Layout = "_LayoutAdmin";
+    ViewData["Title"] = "Danh sách phòng tập";
+}
+
+<div class="container-fluid">
+    <h1 class="mt-4">Danh sách phòng tập</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a asp-action="Index" asp-controller="AdminCP" asp-area="AdminCP">Trang chủ</a></li>
+        <li class="breadcrumb-item active">Danh sách phòng tập</li>
+    </ol>
+    <div class="card mb-12">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-md-6 col-xs-12">
+                    <a class="btn btn-success" asp-action="Create">Tạo mới</a>
+                </div>
+                <div class="col-md-6 col-xs-12">
+                    <form asp-action="Index" method="get">
+                        <div class="row">
+                            <div class="col-md-9">
+                                <input type="text" value="@ViewBag.Keyword" name="keyword" class="form-control" />
+                            </div>
+                            <div class="cold-md-3">
+                                <button type="submit" class="btn btn-primary">Tìm</button>
+                                <button type="button" onclick="window.location.href='/admin/room'" class="btn btn-dark">Reset</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-body">
+            <partial name="_StatusMessage" />
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>STT</th>
+                            <th>Tên phòng tập</th>
+                            <th>Sức chứa</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@(++ViewBag.roomIndex)</td>
+                                <td>
+                                    <a asp-action="Edit" asp-route-id="@item.RoomId">
+                                        @Html.DisplayFor(modelItem => item.RoomName)
+                                    </a>
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Capacity)
+                                </td>
+                                <td>
+                                    <a class="btn btn-info btn-sm" asp-action="Details" asp-route-id="@item.RoomId">Chi tiết</a>
+                                    <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@item.RoomId">Xóa</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <partial name="_PagingXTL" model="@ViewBag.pagingModel" />
+        </div>
+    </div>
+</div>
+
+
+@{
+    _AdminSidebarService.SetActive("Room", "Index", "Class");
+}
+@section Sidebar
+{
+    @Html.Raw(_AdminSidebarService.renderHtml())
+}

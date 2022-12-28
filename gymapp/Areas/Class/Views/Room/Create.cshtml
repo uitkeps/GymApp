@@ -1,0 +1,55 @@
+﻿@model App.Models.Classes.Room
+@using App.Menu
+@inject AdminSidebarService _AdminSidebarService
+@{
+    Layout = "_LayoutAdmin";
+    ViewData["Title"] = "Thêm phòng tập mới";
+}
+
+<div class="container-fluid">
+    <h1 class="mt-4">Tạo mới phòng tập</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a asp-action="Index" asp-controller="AdminCP" asp-area="AdminCP">Trang chủ</a></li>
+        <li class="breadcrumb-item active">Tạo mới phòng tập</li>
+    </ol>
+    <div class="card mb-4">
+        <div class="card-header">
+            <a class="btn btn-success" asp-action="Index">Danh sách phòng tập</a>
+        </div>
+
+        <div class="card-body">
+            <div class="col-md-4">
+                <form asp-action="Create">
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="RoomName" class="control-label"></label>
+                        <input asp-for="RoomName" class="form-control" />
+                        <span asp-validation-for="RoomName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Capacity" class="control-label"></label>
+                        <input asp-for="Capacity" class="form-control" />
+                        <span asp-validation-for="Capacity" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Thêm mới" class="btn btn-primary" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@{
+    var summernote  = new App.Models.Summernote("#Content");
+}
+<partial name="_Summernote" model="summernote" />
+
+@{
+    _AdminSidebarService.SetActive("Room", "Create", "Class");
+}
+@section Sidebar
+    {
+    @Html.Raw(_AdminSidebarService.renderHtml())
+}
+    

@@ -1,0 +1,182 @@
+﻿@using App.Menu
+@inject AdminSidebarService _AdminSidebarService
+@model App.Models.Classes.Instructor
+
+@{
+    Layout = "_LayoutAdmin";
+    ViewData["Title"] = "Cập nhật huấn luyện viên";
+    var expertiseList = ViewData["expertiseList"] as IEnumerable<SelectListItem>;
+}
+
+<div class="container-fluid">
+    <h1 class="mt-4">Cập nhật huấn luyện viên</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a asp-action="Index" asp-controller="AdminCP" asp-area="AdminCP">Trang chủ</a></li>
+        <li class="breadcrumb-item active">Cập nhật huấn luyện viên</li>
+    </ol>
+    <div class="card mb-4">
+        <div class="card-header">
+            <a class="btn btn-success" asp-action="Index">Danh sách huấn luyện viên</a>
+        </div>
+
+        <div class="card-body">
+            <div class="col-md-4">
+                <form asp-action="Edit">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    <input type="hidden" asp-for="Id" />
+                    <div class="form-group">
+                        <label asp-for="Name" class="control-label"></label>
+                        <input asp-for="Name" class="form-control" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="DateOfBirth" class="control-label"></label>
+                        <input asp-for="DateOfBirth" class="form-control">
+                        <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Gender" class="control-label"></label>
+                        <input asp-for="Gender" class="form-control">
+                        <span asp-validation-for="Gender" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Email" class="control-label"></label>
+                        <input asp-for="Email" class="form-control">
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Phone" class="control-label"></label>
+                        <input asp-for="Phone" class="form-control">
+                        <span asp-validation-for="Phone" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Expertise" class="control-label"></label>
+                        <select asp-for="Expertise" asp-items="expertiseList" class="form-control"></select>
+                        <span asp-validation-for="Expertise" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Salary" class="control-label"></label>
+                        <input asp-for="Salary" class="form-control">
+                        <span asp-validation-for="Salary" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="submit" value="Cập nhật" class="btn btn-primary" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@{
+    var summernote  = new App.Models.Summernote("#Content");
+}
+<partial name="_Summernote" model="summernote" />
+
+@*@section Scripts {
+    <script>
+                function AutoUploadPhoto()
+                {
+                     var formData = new FormData();
+                     var id = $("#box-photo-upload").data("id");
+                     formData.append("id", id);
+                     var sofile = document.getElementById("selectfileupload").files.length;
+                     if (sofile == 0) return;
+                     var fileData = document.getElementById("selectfileupload").files[0];
+                     formData.append("FileUpload", fileData)
+                     var urlUpload = "@Url.Action("UploadPhotoApi")";
+                    $.ajax({
+                        data: formData,
+                        cache: false,
+                        url: urlUpload,
+                        type: "POST",
+                        contentType: false,
+                        processData: false,
+                        success: function(data) 
+                        {
+                            // ... xu ly du lieu lay duoc
+                            LoadPhotos();
+                        }
+                    });
+
+                } 
+                function ClickButtoUpload()
+                {
+                    $("#selectfileupload").click();
+                }
+                function setClickDeletePhoto()
+                {
+                    $("#box-photo-upload .photodetail span").click(function () {
+                         if (confirm("Có chắc chắn xóa ảnh?") != true) return;
+                         var spanButton = $(this);
+                         var id = spanButton.data("id");
+                         var formData = new FormData();
+                         formData.append("id", id);
+                         var urlDeletePhoto = "@Url.Action("DeletePhoto")";
+                    $.ajax({
+                        data: formData,
+                        cache: false,
+                        url: urlDeletePhoto,
+                        type: "POST",
+                        contentType: false,
+                        processData: false,
+                        success: function(data) 
+                        {
+                            // ... xu ly du lieu lay duoc
+                            LoadPhotos();
+
+                        }
+                    });
+
+                    });
+                }
+                function LoadPhotos()
+                {
+                    var box = $("#box-photo-upload");
+                    var ProductID = box.data("id");
+                    box.empty();
+                    var formData = new FormData();
+                    formData.append("id", ProductID);
+                    var urlListPhoto = "@Url.Action("ListPhotos")";
+                    $.ajax({
+                        data: formData,
+                        cache: false,
+                        url: urlListPhoto,
+                        type: "POST",
+                        contentType: false,
+                        processData: false,
+                        success: function(data) 
+                        {
+                            // ... xu ly du lieu lay duoc
+                            data.photos.forEach(function(item) {
+                                // console.log(item.id);
+                                // console.log(item.path);
+                                var e = $(
+                                    '<div class="photodetail w-25 p-1">'
+                                       + '<img class="w-100" src="'+ item.path +'" />'
+                                       + '<span class="btn btn-danger" data-id="'+ item.id +'">Delete</span></div>');
+                                 box.append(e);      
+                            });
+                            setClickDeletePhoto();
+                        }
+                    });
+
+                    // console.log(ProductID);
+                }
+                $(document).ready(function() {
+                    LoadPhotos();
+                });
+            </script>
+
+}*@
+
+@{
+    _AdminSidebarService.SetActive("Instructor", "Index", "Class");
+}
+@section Sidebar
+    {
+    @Html.Raw(_AdminSidebarService.renderHtml())
+}

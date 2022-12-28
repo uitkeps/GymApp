@@ -1,0 +1,31 @@
+﻿@model App.Models.Classes.Class
+@{
+    var user = (AppUser)ViewBag.User;
+}
+<div class="row">
+    <div class="col-lg-6">
+        <label for="name">Tên khóa tập</label>
+        <input type="text" id="name" value="@Model.ClassTitle">
+    </div>
+    <div class="col-lg-6">
+        <label for="last-name">Ngày tập</label>
+        <input type="text" id="address" value="@Model.ClassDate">
+    </div>
+    <div class="col-lg-6">
+        <label for="mobile">Phòng tập</label>
+        <input type="text" id="mobile" value="@Model.Room.RoomName">
+    </div>
+    <div class="col-lg-6">
+        <label for="hlv">Huấn luyện viên:</label>
+        <input type="text" value="@Model.Instructor.Name" readonly />
+    </div>
+    <div class="col-lg-6">
+        <label for="time">Lịch tập:</label>
+        <input type="text" value="@Model.ClassPeriod" readonly />
+    </div>
+    <div class="col-lg-6">
+        <label for="cost">Giá:</label>
+        <input type="text" value="@Model.ClassCost VND" readonly />
+    </div>
+</div>
+<button type="submit" data-id="@Model.ClassId" class="register-btn">Đăng ký</button>

@@ -1,0 +1,197 @@
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@inject App.Models.GymAppDbContext context
+@using App.Models.Products
+@{
+    var categories = context.Categories.ToList();
+}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200;300;400;500;700&display=swap" rel="stylesheet">
+
+    <!-- Css Styles -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/owl.carousel.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/magnific-popup.css" type="text/css">
+    <link rel="stylesheet" href="/css/slicknav.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/main.css" type="text/css">
+    <link rel="stylesheet" href="/css/base.css" type="text/css">
+    <link rel="stylesheet" href="/css/reponsive.css" type="text/css">
+
+
+</head>
+
+<body>
+
+    <!-- Page Preloder -->
+    <div id="preloder">
+        <div class="loader"></div>
+    </div>
+
+    <!-- Header Section Begin -->
+    <header class="header-section">
+        <div class="container">
+            <div class="logo">
+                <a asp-action="Index" asp-controller="Home">
+                    <img src="" alt="">
+                </a>
+            </div>
+            <div class="nav-menu">
+                <nav class="mainmenu mobile-menu">
+                    <ul>
+                        <li><a asp-action="Index" asp-controller="Home">Trang chủ</a></li>
+                        <li><a asp-action="Index" asp-controller="ViewMembership" asp-area="Membership">Dịch vụ</a></li>
+                        <li><a asp-action="Index" asp-controller="ViewClass" asp-area="Class">Khóa tập</a></li>
+                        <li><a asp-action="Index" asp-controller="ViewProduct" asp-area="Product">Sản phẩm</a></li>
+                        <li><a asp-action="SendContact" asp-controller="Contact" asp-area="Contact">Liên hệ</a></li>
+                        <li><a asp-action="About" asp-controller="Home">Về chúng tôi</a></li>
+                        
+                        
+                        <partial name="_LoginPartial1" />
+                    </ul>
+                </nav>
+                
+            </div>
+            <div id="mobile-menu-wrap"></div>
+        </div>
+    </header>
+    <!-- Header End -->
+    <!--Success Dialog Start-->
+            <div id="myModalSuccess" class="modal fade text-width:30%;" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+
+                        <div class="modal-header">
+                            <h2>Thông báo</h2>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+
+                        <div id="MyModalSuccessAlertBody" class="modal-body alert alert-success">
+                            this is a modal body. our message will appear here.
+                        </div>
+
+                        <div class="modal-footer">
+                            &nbsp;
+                            <button type="button" class="btn btn-info" data-dismiss="modal">Đóng</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!--Success Dialog End-->
+            <!--Error Dialog Start-->
+            <div id="myModalError" class="modal fade text-width:30%;" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+
+                        <div class="modal-header">
+                            <h2>Lỗi</h2>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+
+                        <div id="MyModalErrorAlertBody" class="modal-body alert alert-danger">
+                            this is a modal body. our message will appear here.
+                        </div>
+
+                        <div class="modal-footer">
+                            &nbsp;
+                            <button type="button" class="btn btn-info" data-dismiss="modal">Đóng</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!--Error Dialog End-->
+    @RenderBody()
+
+    <!-- Footer Section Begin -->
+    <footer class="footer-section set-bg" data-setbg="/img/hero/slider-bg-1.jpg">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 col-sm-12">
+                    <div class="footer-option">
+                        <ul>
+                            <li> <span>Website</span></li>
+                            <li><a asp-action="Index" asp-controller="Home">Trang chủ</a></li>
+                            <li><a asp-action="Index" asp-controller="ViewClass" asp-area="Class">Khóa tập</a></li>
+                            <li><a asp-action="Index" asp-controller="ViewProduct" asp-area="Product">Sản phẩm</a></li>
+                            <li><a asp-action="SendContact" asp-controller="Contact" asp-area="Contact">Liên hệ</a></li>
+                            <li><a asp-action="About" asp-controller="Home">Về chúng tôi</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <div class="footer-option">
+                        <ul>
+                            <li> <span>Sản phẩm</span></li>
+                            @foreach (var item in categories)
+                            {
+                                <li><a href="/san-pham/@item.Slug">@item.Title</a></li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <div class="footer-option">
+                        <ul>
+                            <li> <span>Tham gia</span></li>
+                            <li><a asp-controller="Account" asp-action="Register" asp-area="Identity">Đăng ký</a></li>
+                            <li><a asp-controller="Account" asp-action="Login" asp-area="Identity">Đăng nhập</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="subscribe-option">
+                <div class="so-text">
+                    <h4>ĐĂNG KÍ NHẬN THÔNG TIN MỚI NHẤT</h4>
+                    <p>Đăng ký để nhập những thông tin mới từ chúng tôi</p>
+                </div>
+                <form action="#" class="subscribe-form">
+                    <input type="text" placeholder="Nhập email">
+                    <button type="submit"><i class="fa fa-send"></i></button>
+                </form>
+            </div>
+            <div class="copyright-text">
+                <ul>
+                    <li><a href="#">Điều khoản</a></li>
+                    <li><a href="#">Chính sách</a></li>
+                </ul>
+                <div class="footer-social">
+                    <a href="#"><i class="fa fa-facebook"></i></a>
+                    <a href="#"><i class="fa fa-twitter"></i></a>
+                    <a href="#"><i class="fa fa-instagram"></i></a>
+                    <a href="#"><i class="fa fa-dribbble"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Js Plugins -->
+    <script src="/js/jquery-3.3.1.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/jquery.magnific-popup.min.js"></script>
+    <script src="/js/mixitup.min.js"></script>
+    <script src="/js/jquery.slicknav.js"></script>
+    <script src="/js/owl.carousel.min.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="/js/site.js" asp-append-version="true"></script>
+
+    <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+
+@await RenderSectionAsync("Scripts", required: false)
+</body>
+
+</html>

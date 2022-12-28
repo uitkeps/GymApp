@@ -1,0 +1,52 @@
+﻿@using Newtonsoft.Json
+@using App.Areas.Product.Models
+@using App.Areas.Product.Service
+@inject CartService _cartService
+@{
+    var cart = _cartService.GetCartItems();
+}
+@if (cart.Count > 0)
+{
+    <div class="shopping-item">
+        <div class="dropdown-cart-header">
+            <!-- <span>2 sản phẩm</span> -->
+            <a href="#" style="padding: 0 0 0 0;">Xem giỏ hàng</a>
+        </div>
+        <ul class="shopping-list">
+            
+            @foreach (var item in cart)
+            {
+                <li>
+                    <div class="content-shopping-list-item">
+                        <div class="remove-icon">
+                            @*<a asp-route="removecart" data-productid="@item.product.ProductID" asp-route-productid="@item.product.ProductID" id="@($"remove-{item.product.ProductID}") class="remove" title="Xóa sản phẩm"><i class="fa fa-remove"></i></a>*@
+                            <a href="/removecart/@item.product.ProductID" id="@($"remove-{item.product.ProductID}")" data-productid="@item.product.ProductID" class="remove" title="Xóa sản phẩm"><i class="fa fa-remove"></i></a>
+                        </div>
+                        <a class="cart-img" href="#">
+                            <img src="/img/about-pic.jpg" alt="#"></a>
+                        <div class="cart-product-deatil">
+                            <h4><a href="#">@item.product.ProductName</a></h4>
+                                <p class="quantity">@(item.quantity)x - <span class="amount">@Math.Round(item.product.Price, 0)VNĐ</span>
+                            </p>
+                        </div>
+                    </div>
+                </li>
+            }
+        </ul>
+        <div class="bottom">
+            <div class="total">
+                <span>Tổng </span>
+                <span class="total-amount">235.000đ</span>
+            </div>
+                <a href="/chi-tiet-don-hang" class="btn animate">Thanh toán</a>
+        </div>
+    </div>
+}
+else
+{
+    <div class="shopping-item">
+        <div class="dropdown-cart-header">
+            <p>Không có sản phẩm trong giỏ hàng</p>
+        </div>
+    </div>
+}

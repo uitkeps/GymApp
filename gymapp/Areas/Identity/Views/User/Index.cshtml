@@ -1,0 +1,82 @@
+@model UserListModel
+@using App.Menu
+@inject AdminSidebarService _AdminSidebarService
+@{
+    ViewData["Title"] = "Danh sách các thành viên";
+}
+@*<h2>@ViewData["Title"]</h2>*@
+@*<partial name="_StatusMessage">*@
+<div class="container-fluid">
+    <h1 class="mt-4">Danh sách thành viên</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a asp-action="Index" asp-controller="AdminCP" asp-area="AdminCP">Trang chủ</a></li>
+        <li class="breadcrumb-item active">Danh sách thành viên</li>
+    </ol>
+    <partial name="_StatusMessage">
+    <div class="card mb-12">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-md-6 col-xs-12">
+                    <form asp-action="Index" method="get">
+                        <div class="row">
+                            <div class="col-md-9">
+                                <input type="text" value="@ViewBag.Keyword" name="keyword" class="form-control" />
+                            </div>
+                            <div class="cold-md-3">
+                                <button type="submit" class="btn btn-primary">Tìm</button>
+                                <button type="button" onclick="window.location.href='/ManageUser/Index'" class="btn btn-dark">Reset</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-body">
+            @*<div class="row">
+                <partial name="_StatusMessage"/>
+            </div>*@
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>Tên user</th>
+                        <th>Vai trò (role)</th>
+                        <th>Tác vụ</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var user in Model.users)
+                    {
+                        <tr>
+                            <td>@user.UserName</td>
+                            <td>
+                                @if (string.IsNullOrEmpty(user.RoleNames))
+                                {
+                                    <a class="text-dark" asp-action="AddRole" asp-route-id="@user.Id">+ Thêm roles</a>
+                                }
+                                else
+                                {
+                                    <a asp-action="AddRole" asp-route-id="@user.Id">@user.RoleNames </a>
+                                }
+                            </td>
+                            <td>
+                                <a class="btn btn-success btn-sm" asp-action="SetPassword" asp-route-id="@user.Id">Đặt mật khẩu</a>
+                            </td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            </div>
+            @*<partial name="_PagingXTL" model="@ViewBag.pagingModel" />*@
+        </div>
+    </div>
+</div>
+
+
+@{
+    _AdminSidebarService.SetActive("User", "Index", "Identity");
+}
+@section Sidebar {
+    @Html.Raw(_AdminSidebarService.renderHtml())
+}

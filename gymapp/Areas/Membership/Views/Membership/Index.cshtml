@@ -1,0 +1,89 @@
+﻿    @model IEnumerable<App.Models.Memberships.Membership>
+@using App.Menu
+@inject AdminSidebarService _AdminSidebarService
+
+@{
+    Layout = "_LayoutAdmin";
+    ViewData["Title"] = "Danh sách gói tập";
+}
+<div class="container-fluid">
+    <h1 class="mt-4">Danh sách gói tập</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a asp-action="Index" asp-controller="AdminCP" asp-area="AdminCP">Trang chủ</a></li>
+        <li class="breadcrumb-item active">Danh sách gói tập</li>
+    </ol>
+    <partial name="_AlertMessage" />
+    <div class="card mb-12">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-md-6 col-xs-12">
+                    <a class="btn btn-success" asp-action="Create">Tạo mới</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>STT</th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Level)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Fee)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Hours)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Duration)
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                @(++ViewBag.membershipIndex)
+                                </td>
+                                <td>
+                                    <a asp-action="Edit" asp-route-id="@item.MembershipId">
+                                    @Html.DisplayFor(modelItem => item.Level)
+                                    </a> 
+
+                                </td>
+                                <td>
+                                @Math.Round(item.Fee) VNĐ
+                                </td>
+                                <th>
+                                    @Html.DisplayFor(modelItem => item.Hours) giờ/ngày
+                                </th>
+                                    <th>
+                                        @Html.DisplayFor(modelItem => item.Duration) tháng
+                                        </th>
+                                <td>
+                                    <a class="btn btn-info btn-sm" asp-action="Details" asp-route-id="@item.MembershipId">Chi tiết</a>
+                                        <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@item.MembershipId">Xóa</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <partial name="_PagingXTL" model="@ViewBag.pagingModel" />
+        </div>
+    </div>
+</div>
+
+
+@{
+    _AdminSidebarService.SetActive("Membership", "Index", "Membership");
+}
+@section Sidebar
+    {
+    @Html.Raw(_AdminSidebarService.renderHtml())
+}

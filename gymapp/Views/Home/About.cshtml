@@ -1,0 +1,143 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+    ViewData["Title"] = "Về chúng tôi";
+}    
+<!-- Breadcrumb Section Begin -->
+    <section class="breadcrumb-section set-bg" data-setbg="/img/breadcrumb/classes-breadcrumb.jpg">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="breadcrumb-text">
+                        <h2>VỀ CHÚNG TÔI</h2>
+                        <div class="breadcrumb-option">
+                            <a asp-action="Index"><i class="fa fa-home"></i> Trang chủ</a>
+                            <span>Về chúng tôi</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Breadcrumb Section End -->
+
+    <!-- About Section Begin -->
+    <section class="about-section about-page spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="about-pic">
+                        <img src="/img/member.jpg" alt="">
+                        <a href="" class="play-btn video-popup">
+                            <img src="/img/play.png" alt="">
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="about-text">
+                        <h2>Về chúng tôi</h2>
+                        <p class="first-para">Trong đời sống chúng ta, sức khoẻ giữ một vị trí hết sức quan trọng.
+                            Người xưa đã từng nói: “Có sức khoẻ là có tất cả.” Việc nâng cao sức khoẻ của mỗi
+                            cá nhân hiện nay là vấn đề rất được đề cao. Nắm được nhu cầu, vị trí và tầm quan
+                            trọng của sức khoẻ mà nhiều cá nhân, doanh nghiệp liên tục xây dựng và phát triển
+                            các hệ thống phòng tập thể hình, phòng tập gym,... tại các thành phố lớn như
+                            TPHCM, Hà Nội và cả ở những tỉnh thành nhỏ hơn. Vì nhu cầu của người tiêu dùng
+                            hiện nay rất cao đối với hệ thống tập thể hình, số người đến các phòng tập dần dần
+                            tăng để trải nghiệm những thiết bị tiên tiến, hiện đại nhất, kéo theo đó chính là sự
+                            cạnh tranh giữa các phòng tập với nhau nhằm lôi kéo khách hàng trải nghiệm những
+                            dịch vụ tốt nhất với giá cả hợp lý.</p>
+                        <p class="second-para">Vì nhu cầu của người tiêu dùng
+                            hiện nay rất cao đối với hệ thống tập thể hình, số người đến các phòng tập dần dần
+                            tăng để trải nghiệm những thiết bị tiên tiến.</p>
+                        <!-- <img src="img/about-signature.png" alt=""> -->
+                        <div class="at-author">
+                            <h4>Chilling</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- About Section End -->
+
+    <!-- About Counter Section Begin -->
+    <div class="about-counter">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="about-counter-text">
+                        <div class="single-counter">
+                            <h1 class="counter-num count">@ViewBag.classes</h1>
+                            <p>Lớp</p>
+                        </div>
+                        <div class="single-counter">
+                            <h1 class="counter-num count">@ViewBag.products</h1>
+                            <p>Sản phẩm</p>
+                        </div>
+                        <div class="single-counter">
+                            <h1 class="counter-num count">@ViewBag.users</h1>
+                            <!-- <span>k+</span> -->
+                            <p>Thành viên</p>
+                        </div>
+                        <div class="single-counter">
+                            <h1 class="counter-num count">@ViewBag.instructors</h1>
+                            <p>HLV</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- About Counter Section End -->
+
+    <!-- Gym Award Section Begin -->
+    <section class="gym-award spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="award-text">
+                        <h2>Chứng nhận phong gym đạt chuẩn quốc tế</h2>
+                        <p>Chứng nhận từ NCCA: hầu hết các phòng gym tại Mỹ chỉ chấp nhận các chứng chỉ được NCCA công
+                            nhận, vậy nên có thể nói đây là một trong những tiêu chí quan trọng hàng đầu đối với các
+                            huấn luyện viên..</p>
+                        <p>Các khóa CEU là các khóa học nâng cao dựa trên nền tảng những kiến thức bạn đã học từ khóa
+                            CPT..</p>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <img src="/img/award.jpg" alt="">
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Gym Award Section End -->
+
+    <!-- Banner Section Begin -->
+    <section class="banner-section set-bg" data-setbg="/img/banner-bg2.png">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 pb-5">
+                    <div class="banner-text">
+                        <h2>Bắt đầu luyện tập ngay từ hôm nay</h2>
+                        <p>Bắt đầu luyện tập ngay từ hôm nay. Bắt đầu luyện tập ngay từ hôm nay. Bắt đầu luyện tập ngay
+                            từ hôm nay</p>
+                        <a href="#" class="primary-btn banner-btn">Liên hệ ngay</a>
+                    </div>
+                </div>
+                <div class="col-lg-5">
+                    <img src="/img/banner-person2.png" alt="">
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Banner Section End -->
+
+
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+            $('.mainmenu').find('li').removeClass('active');
+            $('.mainmenu').find('li').eq(5).addClass('active');
+        });
+    </script>
+}

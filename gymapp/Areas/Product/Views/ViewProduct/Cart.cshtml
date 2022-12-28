@@ -1,0 +1,283 @@
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model List<App.Areas.Product.Models.CartItem>
+@inject App.Models.GymAppDbContext _context
+@{
+    ViewData["Title"] = "Giỏ hàng";
+    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+    decimal total = 0;
+    int stt = 1;
+    var discount = ViewBag.Discount as App.Models.Payments.Discount;
+}
+<!-- Breadcrumb Section Begin -->
+    <section class="breadcrumb-section set-bg" data-setbg="/img/breadcrumb/classes-breadcrumb.jpg">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="breadcrumb-text">
+                        <h2>GIỎ HÀNG</h2>
+                        <div class="breadcrumb-option">
+                            <a asp-action="Index" asp-controller="Home"><i class="fa fa-home"></i> Trang chủ</a>
+                            <span> Giỏ hàng</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Breadcrumb Section End -->
+    
+
+@if (Model.Count > 0)
+{
+    
+    <section class="ftco-section ftco-cart spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 ftco-animate">
+                    <partial name="_StatusMessage"/>
+                    <div class="cart-list">
+                        <table class="table" d="cart-gym">
+                            <thead class="thead-primary">
+                            <tr class="text-center">
+                                <th>&nbsp;</th>
+                                <th>&nbsp;</th>
+                                <th>Tên</th>
+                                <th>Giá</th>
+                                <th>Số lượng</th>
+                                <th>Tổng</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach (var item in Model)
+                            {
+                                decimal subTotal = item.quantity * item.product.Price;
+                                total += subTotal;
+                                <tr class="text-center">
+                                    <td class="product-remove"><a href="/removecart/@item.product.ProductID" data-productid="@item.product.ProductID" id="@($"remove-{item.product.ProductID}")" class="removeItem"><i class="trash-icon fa-solid fa-x"></i></a></td>
+
+                                    @{
+                                        string imgSrc = "/contents/nophoto.png";
+                                        List<App.Models.Products.ProductPhoto> productPhotos = _context.ProductPhotos.Where(p => p.ProductID == item.product.ProductID).ToList();
+                                        if (productPhotos.Any())
+                                        {
+                                            imgSrc = $"/contents/products/{productPhotos.FirstOrDefault().FileName}";
+                                        }
+                                        <td class="image-prod set-bg" data-setbg="@imgSrc"></td>
+                                        //<td class="image-prod set-bg" data-setbg="/img/blog/product_1.jpg"></td>
+                                    }
+
+                                    <td class="product-name">
+                                        <h3>@item.product.Category.Title</h3>
+                                        <p>@item.product.ProductName</p>
+                                    </td>
+
+                                    <td class="price">@Math.Round(item.product.Price)Đ</td>
+
+                                    <td class="quantity">
+                                        <div class="input-group mb-3">
+                                            <input asp-for="@item.quantity" name="quantity" class="quantity form-control input-number" data-productid="@item.product.ProductID" id="@($"quantity-{item.product.ProductID}")" min="1">
+                                        </div>
+                                    </td>
+                                    <td class="total">@Math.Round(subTotal)Đ</td>
+                                </tr>
+                            }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="row justify-content-end">
+                <div class="col-lg-4 mt-5 cart-wrap ftco-animate">
+                    <div class="cart-total mb-3">
+                        <h3>Mã giảm giá</h3>
+                        <p>Nếu bạn có mã giảm giá, hãy nhâp để sử dụng</p>
+                        <form action="#" class="info" id="discountForm">
+                            <div class="form-group">
+                                <label for="">Mã giảm giá</label>
+                                <input type="text" class="form-control text-left px-3" placeholder="" id="discountCode">
+                            </div>
+                        </form>
+                            <div id="msgDiscount"></div>
+                    </div>
+                    
+                    <p><a href="#" id="discountSubmit" class="btn btn-primary btn-cart py-3 px-4">Áp dụng</a></p>
+                </div>
+
+                <div class="col-lg-4 mt-5 cart-wrap ftco-animate">
+                    <div class="cart-total mb-3">
+                        <h3>Tổng chi phí</h3>
+                        <p class="d-flex total__product-price">
+                            <span>Phí hàng</span>
+                            <span id="totalsss" value="@Math.Round(total)">@Math.Round(total)đ</span>
+                        </p>
+                        <p class="d-flex">
+                            <span>Phí vận chuyển</span>
+                            <span>0đ</span>
+                        </p>
+                        <p class="d-flex">
+                            <span>Giảm giá</span>
+                            <span id="discountPrice">
+                                @if (discount != null)
+                                {
+                                    @Math.Round((discount.Percent * total / 100))
+                                }
+                                else
+                                {
+                                    @Html.Raw("0")
+                                }đ
+                                
+                            </span>
+                        </p>
+                        <hr>
+                        <p class="d-flex total-price">
+                            <span>Tổng</span>
+                            <span id="totalPrice">
+                                @if (discount != null)
+                                {
+                                    @Math.Round((total-(discount.Percent * total / 100)))
+                                }
+                                else
+                                {
+                                    @Math.Round(total)
+                                }đ
+                            </span>
+                        </p>
+                    </div>
+                    <p><a asp-controller="ViewProduct" asp-action="Payment" asp-area="Product" class="btn btn-primary btn-cart py-3 px-4">Xác nhận</a></p>
+                </div>
+            </div>
+        </div>
+    </section>
+}
+else
+{
+    @*<section class="ftco-cart spad">
+    <div class="container">
+        <div class="row">
+                <p class="alert alert-danger w-100">Không có sản phẩm nào trong giỏ hàng</p>
+        </div>
+    </div>
+    </section>*@
+    <div class="container card border-0 py-2 mt-5 mb-5">
+        <partial name="_StatusMessage" />
+        <div class="alert">
+            <div class="text-center">
+                <img src="https://bizweb.dktcdn.net/100/011/344/themes/857119/assets/cart_empty_background.png?1671441558666" alt="" class="img-fluid">
+                <h3 class="mt-4">Không có gì trong giỏ hàng</h3>
+                <div class="mt-4">
+                    <a asp-action="Index" asp-controller="ViewProduct" class="btn btn-danger">Mua sắm ngay</a>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        $(document).ready(function () {
+              //$(".updatecartitem").on("click",function () {
+              //    var productid = $(this).attr("data-productid");
+              //    var quantity = $("#quantity-" + productid).val();
+              //    $.ajax({
+              //        type: "POST",
+              //      url:"/updatecart",
+              //        data: {
+              //            productid: productid,
+              //            quantity:quantity
+              //        },
+              //        success: function (result) {
+              //            window.location.href = "";
+              //        }
+              //    });
+              //});
+              
+            $(".input-number").bind('keyup change', function (e) {
+                if(this.value < 1){
+                    //this.value = 1;
+                    return false
+                }
+                else {
+                        if (!$(this).data("previousValue") || $(this).data("previousValue") != $(this).val())
+                    {
+                        $(this).data("previousValue", $(this).val());
+                        var value = $(this).val();
+                        var productid = $(this).attr("data-productid");
+                        var quantity = $("#quantity-" + productid).val();
+                        $.ajax({
+                            type: "POST",
+                            url:"@Url.RouteUrl("updatecart")",
+                            data: {
+                                productid: productid,
+                                quantity:quantity
+                            },
+                            success: function (result) {
+                                window.location.href = "@Url.RouteUrl("cart")";
+                            }
+                        });
+                    }
+                }
+                
+        
+            });
+            
+            $(".removeItem").click(function (e) {
+                e.preventDefault();
+                var productId = $(this).data('productid');
+                var url = $(this).attr('href');
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    success: function (data) {
+                        window.location.href = "@Url.RouteUrl("cart")";
+                    }
+                });
+            });
+            
+            $("#discountSubmit").click(function (e) {
+                e.preventDefault();
+                var discountCode = $("#discountCode").val();
+                console.log(discountCode);
+                var urldiscount = "/kiem-tra-ma-giam-gia/";
+                console.log(urldiscount);
+                var form = new FormData();
+                form.append("code", discountCode);
+                
+                $.ajax({
+                    url: urldiscount,
+                    type: 'POST',
+                    data: form,
+                    processData: false,
+                    contentType: false,
+                    success: function (data) {
+                        if (data.success) {
+                            $("#msgDiscount").html('<p class="text-success">Mã giảm giá hợp lệ</p>');
+                            var total = $("#totalsss").attr("value");
+                            var discountPrice = data.discount * total / 100;
+                            var totalPrice = total - discountPrice;
+                            $("#discountPrice").html(discountPrice + "đ");
+                            //$("#discountPrice").html(total * data.percent / 100 + "đ");
+                            $("#totalPrice").html(totalPrice + "đ");
+                                //return false;
+                        }
+                        else {
+                            $("#msgDiscount").html('<p class="text-danger">'+data.message+'</p>');
+                            $("#discountPrice").html("0đ");
+                            $("#totalPrice").html($("#totalsss").attr("value") + "đ");
+                            //return false;
+                        }
+                    }
+                });
+            });
+            
+            $("#discountCode").keyup(function () {
+                $("#msgDiscount").html("");
+            });
+        
+        });
+    </script>
+}

@@ -1,0 +1,69 @@
+﻿@model App.Models.Classes.Class
+@using App.Menu
+@inject AdminSidebarService _AdminSidebarService
+@{
+    Layout = "_LayoutAdmin";
+    ViewData["Title"] = "Chi tiết khóa tập";
+}
+
+
+<div class="container-fluid">
+    <h1 class="mt-4">Chi tiết khóa tập</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a asp-action="Index" asp-controller="AdminCP" asp-area="AdminCP">Trang chủ</a></li>
+        <li class="breadcrumb-item active">Chi tiết khóa tập</li>
+    </ol>
+    <div class="card mb-4">
+        <div class="card-header">
+            <a class="btn btn-success" asp-action="Index">Danh sách khóa tập</a>
+        </div>
+
+        <div class="card-body">
+            <div class="col-md-12">
+                <dl class="row">
+                    <dt class = "col-sm-2">
+                        @Html.DisplayNameFor(model => model.ClassTitle)
+                    </dt>
+                    <dd class = "col-sm-10">
+                        @Html.DisplayFor(model => model.ClassTitle)
+                    </dd>
+                    <dt class = "col-sm-2">
+                        @Html.DisplayNameFor(model => model.ClassDate)
+                    </dt>
+                    <dd class = "col-sm-10">
+                        @Html.DisplayFor(model => model.ClassDate)
+                    </dd>
+                    <dt class = "col-sm-2">
+                        @Html.DisplayNameFor(model => model.ClassPeriod)
+                    </dt>
+                    <dd class = "col-sm-10">
+                        @Html.DisplayFor(model => model.ClassPeriod)
+                    </dd>
+                    <dt class = "col-sm-2">
+                        @Html.DisplayNameFor(model => model.Room.RoomName)
+                    </dt>
+                    <dd class = "col-sm-10">
+                        @Html.DisplayFor(model => model.Room.RoomName)
+                    </dd>
+                    <dt class = "col-sm-2">
+                        @Html.DisplayNameFor(model => model.Instructor.Name)
+                    </dt>
+                    <dd class = "col-sm-10">
+                        @Html.DisplayFor(model => model.Instructor.Name)
+                    </dd>
+                </dl>
+                @*<dl class="row">
+                    <a class="btn btn-success btn-sm mr-1" asp-action="Edit" asp-route-id="@Model.RoomId">Cập nhật</a>
+                    <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@Model.RoomId">Xóa</a>
+                </dl>*@
+            </div>
+        </div>
+    </div>
+</div>
+@{
+    _AdminSidebarService.SetActive("Class", "Index", "Class");
+}
+@section Sidebar
+    {
+    @Html.Raw(_AdminSidebarService.renderHtml())
+}

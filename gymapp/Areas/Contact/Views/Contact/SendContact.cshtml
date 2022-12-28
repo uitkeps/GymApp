@@ -1,0 +1,221 @@
+@model App.Models.Contacts.Contact
+
+@{
+    Layout = "_LayoutUser";
+    ViewData["Title"] = "Gửi liên hệ tới Chilling";
+}
+
+
+                <!-- Breadcrumb Section Begin -->
+    <section class="breadcrumb-section set-bg" data-setbg="/img/breadcrumb/classes-breadcrumb.jpg">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="breadcrumb-text">
+                        <h2>Liên hệ</h2>
+                        <div class="breadcrumb-option">
+                            <a href="/index.html"><i class="fa fa-home"></i> Trang chủ</a>
+                            <span>Liên hệ</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Breadcrumb Section End -->
+
+    <!-- Contact Section Begin -->
+    <section class="contact-section spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="contact-info">
+                        <h4>Liên hệ</h4>
+                        <div class="contact-address">
+                            <div class="ca-widget">
+                                <div class="cw-icon">
+                                    <img src="/img/icon/icon-1.png" alt="">
+                                </div>
+                                <div class="cw-text">
+                                    <h5>Địa chỉ</h5>
+                                    <p>Khu phố 6, P.Linh Trung, Tp.Thủ Đức, Tp.Hồ Chí Minh.</p>
+                                </div>
+                            </div>
+                            <div class="ca-widget">
+                                <div class="cw-icon">
+                                    <img src="/img/icon/icon-2.png" alt="">
+                                </div>
+                                <div class="cw-text">
+                                    <h5>Số điện thoại:</h5>
+                                    <p>0123456789</p>
+                                </div>
+                            </div>
+                            <div class="ca-widget">
+                                <div class="cw-icon">
+                                    <img src="/img/icon/icon-3.png" alt="">
+                                </div>
+                                <div class="cw-text">
+                                    <h5>Email</h5>
+                                    <p>Chiling-Group@gmail.com</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-8">
+                    <div class="contact-form">
+                        <h4>Để lại bình luận</h4>
+                        <partial name="_StatusMessage" />
+                        <form asp-action="SendContact" id="form-contact">
+                            <div class="row">
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                <div class="col-lg-6">
+                                    <input asp-for="FullName" placeholder="Họ và tên" id="fullname" class="form-control" required>
+                                </div>
+                                <div class="col-lg-6">
+                                    <input asp-for="Email" placeholder="Email" id="email" class="form-control">
+                                </div>
+                                <div class="col-lg-6">
+                                    <input asp-for="Phone" placeholder="Số điện thoại" id="phone" class="form-control" >
+                                </div>
+                                <div class="col-lg-12">
+                                    <textarea asp-for="Message" placeholder="Để lại phản hồi của bạn" id="message" class="form-control"></textarea>
+                                    <button type="submit">Gửi</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Contact Section End -->
+
+
+    <!-- Map Section Begin -->
+    <div class="map">
+        <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3918.2311711962043!2d106.80086541467678!3d10.870014160431944!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x317527587e9ad5bf%3A0xafa66f9c8be3c91!2zVHLGsOG7nW5nIMSQ4bqhaSBo4buNYyBDw7RuZyBuZ2jhu4cgVGjDtG5nIHRpbiAtIMSQSFFHIFRQLkhDTQ!5e0!3m2!1svi!2s!4v1667293716127!5m2!1svi!2s"
+            width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"></iframe>
+        <img src="/img/icon/location.png" alt="">
+    </div>
+<!-- Map Section End -->
+
+@section Scripts
+{
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+    <script>
+        $(document).ready(function () {
+            $('.mainmenu').find('li').removeClass('active');
+            $('.mainmenu').find('li').eq(4).addClass('active');
+        });
+        
+            $("#form-contact").submit(function (e) {
+                e.preventDefault();
+                var fullname = $("#fullname").val();
+                var email = $("#email").val();
+                var phone = $("#phone").val();
+                var message = $("#message").val();
+                
+                var temp = true;
+                if(fullname == "")
+                {
+                    $("#fullname").addClass("is-invalid");
+                    $("#fullname").attr("placeholder", "Vui lòng nhập họ tên");
+                    temp = false;
+                }
+                else
+                {
+                    $("#fullname").removeClass("is-invalid");
+                    $("#fullname").addClass("is-valid");
+                }
+                
+                
+                var regexEmail = /^([\w-\.]+@@([\w-]+\.)+[\w-]{2,4})?$/;
+                if(email == "")
+                {
+                    $("#email").addClass("is-invalid");
+                    $("#email").attr("placeholder", "Vui lòng nhập email");
+                    temp = false;
+                }
+                else if(!regexEmail.test(email))
+                {
+                    $("#email").addClass("is-invalid");
+                    $("#email").val("");
+                    $("#email").attr("placeholder", "Email không hợp lệ");
+                    temp = false;
+                }
+                else
+                {
+                    $("#email").removeClass("is-invalid");
+                    $("#email").addClass("is-valid");
+                }
+                
+                var regexPhone = /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/;
+                if(phone == "")
+                {
+                    $("#phone").addClass("is-invalid");
+                    $("#phone").attr("placeholder", "Vui lòng nhập số điện thoại");
+                    temp = false;
+                }
+                else if(!regexPhone.test(phone) || phone.length != 10)
+                {
+                    $("#phone").addClass("is-invalid");
+                    $("#phone").val("");
+                    $("#phone").attr("placeholder", "Số điện thoại không hợp lệ");
+                    
+                    temp = false;
+                }
+                else
+                {
+                    $("#phone").removeClass("is-invalid");
+                    $("#phone").addClass("is-valid");
+                }
+                
+                
+                if(message == "")
+                {
+                    $("#message").addClass("is-invalid");
+                    $("#message").attr("placeholder", "Vui lòng nhập nội dung");
+                    temp = false;
+                }
+                else
+                {
+                    $("#message").removeClass("is-invalid");
+                    $("#message").addClass("is-valid");
+                }
+            
+                
+                if(temp == true)
+                {
+                    $("#form-contact").unbind('submit').submit();
+                }
+            });
+            
+            $("#fullname").focus(function () {
+                $("#fullname").removeClass("is-invalid");
+                $("#fullname").removeClass("is-valid");
+                $("#fullname").attr("placeholder", "Họ và tên");
+            });
+            
+            $("#email").focus(function () {
+                $("#email").removeClass("is-invalid");
+                $("#email").removeClass("is-valid");
+                $("#email").attr("placeholder", "Email");
+            });
+            
+            $("#phone").focus(function () {
+                $("#phone").removeClass("is-invalid");
+                $("#phone").removeClass("is-valid");
+                $("#phone").attr("placeholder", "Số điện thoại");
+            });
+            
+            $("#message").focus(function () {
+                $("#message").removeClass("is-invalid");
+                $("#message").removeClass("is-valid");
+                $("#message").attr("placeholder", "Nội dung");
+            });
+                
+    </script>
+    }

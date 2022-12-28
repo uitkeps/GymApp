@@ -1,0 +1,245 @@
+﻿@inject SignInManager<AppUser> SignInManager
+
+@model RegisterViewModel
+@{
+    Layout = null;
+    var modelState = ViewData.ModelState;
+}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Đăng ký tài khoản</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
+
+    <!-- Css Styles -->
+  <link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
+  <link rel="stylesheet" href="/css/font-awesome.min.css" type="text/css">
+  <link rel="stylesheet" href="/css/owl.carousel.min.css" type="text/css">
+  <link rel="stylesheet" href="/css/magnific-popup.css" type="text/css">
+  <link rel="stylesheet" href="/css/slicknav.min.css" type="text/css">
+  <link rel="stylesheet" href="/css/main.css" type="text/css">
+  <link rel="stylesheet" href="/css/base.css" type="text/css">
+  <link rel="stylesheet" href="/css/reponsive.css" type="text/css">
+  
+  <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+  <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
+  <style>
+    body {
+      height: 100%;
+      width: 100%;
+      /* extended code */
+      background-size: 100% 100%;
+      /* background-repeat: no-repeat; */
+      background-position: center center;
+      background-image: url('/img/login/Background-gym-signin.jpg');
+    } 
+  </style>
+</head>
+
+<body>
+<section class="vh-100 bg-image">
+
+    <div class="mask d-flex align-items-center h-100 gradient-custom-3">
+        <div class="container h-100">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col-11 col-md-8 col-lg-6 col-xl-5 col-xxl-4">
+                    <div class="card" style="border-radius: 15px;">
+                        <div class="card-body login-sinup">
+                            <h2 class="header__title-login text-uppercase text-center pb-4">Đăng ký</h2>
+                            
+                             @if (modelState.ErrorCount > 0)
+                             {
+                                 <ul class="text-danger">
+                                     @foreach (var item in modelState.Values.SelectMany(v => v.Errors))
+                                     {
+                                         <li>@item.ErrorMessage</li>
+                                     }
+                                 </ul>
+                             }
+
+                            <form asp-controller="Account" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" role="form" id="register-form">
+                      
+                                @*<div asp-validation-summary="ModelOnly" class="text-danger"></div>*@
+
+                                <div class="form-outline mb-1">
+                                    <label class="form-label" asp-for="UserName">Tên đăng nhập</label>
+                                    <input asp-for="UserName" id="username" class="form-control"/>
+                                </div>
+
+                                <div class="form-outline mb-1">
+                                    <label class="form-label" asp-for="Password">Mật khẩu</label>
+                                    <input asp-for="Password" id="password" class="form-control"/>
+                                </div>
+                      
+                                <div class="form-outline mb-1">
+                                    <label class="form-label" asp-for="FullName">Họ và tên</label>
+                                    <input asp-for="FullName" id="fullname" class="form-control"/>
+                                </div>
+
+                                <div class="form-outline mb-1">
+                                    <label class="form-label" asp-for="Email">Email</label>
+                                    <input asp-for="Email" id="email" class="form-control"/>
+                                </div>
+                      
+                                <div class="form-outline mb-1">
+                                    <label class="form-label" asp-for="PhoneNumber">Số điện thoại</label>
+                                    <input asp-for="PhoneNumber" id="phonenumber" class="form-control"/>
+                                </div>
+
+                                <div class="form-outline mb-1">
+                                    <label class="form-label" asp-for="HomeAddress">Địa chỉ</label>
+                                    <input asp-for="HomeAddress" id="address" class="form-control"/>
+                                </div>
+
+                                <div class="d-flex justify-content-center pt-4">
+                                    <button class="btn btn-primary-color btn--sinup fw-bold text-white text-uppercase" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]">
+                                        Tạo tài khoản
+                                    </button>
+                                </div>
+
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Js Plugins -->
+<script src="/js/jquery-3.3.1.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/jquery.magnific-popup.min.js"></script>
+<script src="/js/jquery.slicknav.js"></script>
+<script src="/js/owl.carousel.min.js"></script>
+<script src="/js/jquery.nice-select.min.js"></script>
+<script src="/js/mixitup.min.js"></script>
+<script src="/js/main.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $("#register-form").submit(function (e) {
+            e.preventDefault();
+            
+            var username = $("#username").val();
+            var password = $("#password").val();
+            var fullname = $("#fullname").val();
+            var email = $("#email").val();
+            var phonenumber = $("#phonenumber").val();
+            var address = $("#address").val();
+            
+            var check = true;
+            if(username == ""){
+                $("#username").focus();
+                $("#username").addClass("is-invalid");
+                $("#username").attr("placeholder", "Vui lòng nhập tên đăng nhập");
+                check = false;
+            }
+            if(password == ""){
+                $("#password").focus();
+                $("#password").addClass("is-invalid");
+                $("#password").attr("placeholder", "Vui lòng nhập mật khẩu");
+                check = false;
+            }
+            if(fullname == ""){
+                $("#fullname").focus();
+                $("#fullname").addClass("is-invalid");
+                $("#fullname").attr("placeholder", "Vui lòng nhập họ và tên");
+                check = false;
+            }
+            
+            var regexEmail = /^([\w-\.]+@@([\w-]+\.)+[\w-]{2,4})?$/;
+            if(email == ""){
+                $("#email").focus();
+                $("#email").addClass("is-invalid");
+                $("#email").attr("placeholder", "Vui lòng nhập email");
+                check = false;
+            }
+            else if(!regexEmail.test(email))
+            {
+                $("#email").addClass("is-invalid");
+                $("#email").val("");
+                $("#email").attr("placeholder", "Email không hợp lệ");
+                temp = false;
+            }
+            else
+            {
+                $("#email").removeClass("is-invalid");
+                //$("#email").addClass("is-valid");
+            }
+            
+            var regexPhone = /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/;
+            if(phonenumber == ""){
+                $("#phonenumber").focus();
+                $("#phonenumber").addClass("is-invalid");
+                $("#phonenumber").attr("placeholder", "Vui lòng nhập số điện thoại");
+                check = false;
+            }
+            else if(!regexPhone.test(phonenumber) || phonenumber.length != 10)
+            {   
+                $("#phonenumber").addClass("is-invalid");
+                $("#phonenumber").val("");
+                $("#phonenumber").attr("placeholder", "Số điện thoại không hợp lệ");
+                check = false;
+            }
+            else
+            {
+                $("#phonenumber").removeClass("is-invalid");
+                //$("#phonenumber").addClass("is-valid");
+            }
+
+            
+            if(address == ""){
+                $("#address").focus();
+                $("#address").addClass("is-invalid");
+                $("#address").attr("placeholder", "Vui lòng nhập địa chỉ");
+                check = false;
+            }
+            
+            if(!check){
+                return false;
+            } 
+            else {
+                $("#register-form").unbind("submit").submit();
+                return true;
+            }
+            
+        });
+        
+        $("#username").focus(function(){
+            $("#username").removeClass("is-invalid");
+        });
+        $("#password").focus(function(){
+            $("#password").removeClass("is-invalid");
+        });
+        $("#fullname").focus(function(){
+            $("#fullname").removeClass("is-invalid");
+        });
+        $("#email").focus(function(){
+            $("#email").removeClass("is-invalid");
+        });
+        $("#phonenumber").focus(function(){
+            $("#phonenumber").removeClass("is-invalid");
+        });
+        $("#address").focus(function(){
+            $("#address").removeClass("is-invalid");
+        });
+        
+    })
+</script>
+
+</body>
+
+</html>

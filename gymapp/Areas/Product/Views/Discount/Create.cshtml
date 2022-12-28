@@ -1,0 +1,55 @@
+﻿@model App.Models.Payments.Discount
+@using App.Menu
+@inject AdminSidebarService _AdminSidebarService
+@{
+    Layout = "_LayoutAdmin";
+    ViewData["Title"] = "Thêm mã giảm giá mới";
+}
+
+<div class="container-fluid">
+    <h1 class="mt-4">Tạo mới mã giảm giá</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a asp-action="Index" asp-controller="AdminCP" asp-area="AdminCP">Trang chủ</a></li>
+        <li class="breadcrumb-item active">Tạo mới phòng tập</li>
+    </ol>
+    <div class="card mb-4">
+        <div class="card-header">
+            <a class="btn btn-success" asp-action="Index">Danh sách mã giảm giá</a>
+        </div>
+
+        <div class="card-body">
+            <div class="col-md-4">
+                <form asp-action="Create">
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="Code" class="control-label"></label>
+                        <input asp-for="Code" class="form-control" />
+                        <span asp-validation-for="Code" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Percent" class="control-label"></label>
+                        <input asp-for="Percent" class="form-control" />
+                        <span asp-validation-for="Percent" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Thêm mới" class="btn btn-primary" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@{
+    var summernote  = new App.Models.Summernote("#Content");
+}
+<partial name="_Summernote" model="summernote" />
+
+@{
+    _AdminSidebarService.SetActive("Discount", "Create", "Product");
+}
+@section Sidebar
+    {
+    @Html.Raw(_AdminSidebarService.renderHtml())
+}
+    

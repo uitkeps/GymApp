@@ -1,0 +1,156 @@
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model List<App.Models.Classes.Class>
+@{
+    Layout = "_LayoutUser";
+    ViewData["Title"] = "Khóa tập";
+    var user = ViewBag.user as App.Models.AppUser;
+}
+<!-- Breadcrumb Section Begin -->
+    <section class="breadcrumb-section set-bg" data-setbg="/img/breadcrumb/classes-breadcrumb.jpg">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="breadcrumb-text">
+                        <h2>Khóa tập</h2>
+                        <div class="breadcrumb-option">
+                            <a asp-action="Index" asp-controller="Home"><i class="fa fa-home"></i> Trang chủ</a>
+                            <span>Khóa tập</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Breadcrumb Section End -->
+
+    <!-- Classes Section Begin -->
+    <section class="classes-section classes-page spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="section-title">
+                        <h2>Khóa tập</h2>
+                    </div>
+                </div>
+                @foreach (var classModel in Model)
+                {
+                    <div class="col-lg-4 col-md-6">
+                        @if (classModel.PhotoUrl == null)
+                        {
+                            <div class="single-class-item set-bg" data-setbg="/contents/nophoto.png">
+                                <div class="si-text">
+                                    <h4>@classModel.ClassTitle</h4>
+                                    <span><i class="fa fa-user"></i>@classModel.Instructor.Name</span>
+                                    <button type="button" class="btn btn-registerclass" data-id="@classModel.ClassId" data-toggle="modal" data-target=".bd-example-modal-sm">Đăng ký</button>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="single-class-item set-bg" data-setbg="/images/@classModel.PhotoUrl">
+                                <div class="si-text">
+                                    <h4>@classModel.ClassTitle</h4>
+                                    <span><i class="fa fa-user"></i>@classModel.Instructor.Name</span>
+                                    <button type="button" class="btn btn-registerclass" data-id="@classModel.ClassId" data-toggle="modal" data-target=".bd-example-modal-sm">Đăng ký</button>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                    
+                    <!-- Classes Popup Begin -->
+                    <div class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel"
+                    aria-hidden="true">
+                        <div class="modal-dialog modal-xl">
+                            <div class="modal-content">
+                                <div class="container">
+                                    <div class="classes-page-text">
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <div class="register-text">
+                                                    <div class="section-title">
+                                                        <h2>Đăng ký khóa tập</h2>
+                                                        <!-- <p>The First 7 Day Trial Is Completely Free With The Teacher</p> -->
+                                                    </div>
+                                                    <form action="#" class="register-form">
+                                                        <div class="row">
+                                                            <div class="col-lg-6">
+                                                                <label for="name">Tên khóa tập</label>
+                                                                <input type="text" id="name" value="@classModel.ClassTitle">
+                                                            </div>
+                                                            <div class="col-lg-6">
+                                                                <label for="last-name">Ngày tập</label>
+                                                                <input type="text" id="address" value="@classModel.ClassDate">
+                                                            </div>
+                                                            <div class="col-lg-6">
+                                                                <label for="mobile">Phòng tập</label>
+                                                                <input type="text" id="mobile" value="">
+                                                            </div>
+                                                            <div class="col-lg-6">
+                                                                <label for="hlv">Huấn luyện viên:</label>
+                                                                <input type="text" value="@classModel.Instructor.Name" readonly />
+                                                            </div>
+                                                            <div class="col-lg-6">
+                                                                <label for="time">Lịch tập:</label>
+                                                                <input type="text" value="@classModel.ClassPeriod" readonly />
+                                                            </div>
+                                                            <div class="col-lg-12">
+                                                                <label for="cost">Giá:</label>
+                                                                <input type="text" value="@classModel.ClassCost VND" readonly />
+                                                            </div>
+                                                        </div>
+                                                        <button type="submit" class="register-btn">Đăng ký</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Classes Popup End -->
+                }
+                
+            </div>
+            
+        </div>
+    </section>
+    <!-- Classes Section End -->
+    
+@section Scripts
+{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        $(document).ready(function () {
+            $('.mainmenu').find('li').removeClass('active');
+            $('.mainmenu').find('li').eq(2).addClass('active');
+
+            $(".btn-registerclass").click(function () {
+                var classId = $(this).data('id');
+                $.ajax({
+                    url: '/khoa-tap/' + classId,
+                    type: 'GET',
+                    data: { classId: classId },
+                    success: function (data) {
+                        $(".register-form").html = "";
+                        $(".register-form").html(data);
+                    }
+                });
+            
+            });
+            
+            $(this).on("click", ".register-btn", function () {
+                var classId = $(this).data('id');
+                window.location.href = '/khoa-tap/' + classId + '/xac-nhan-don-hang';
+                return false;
+                    
+            });
+            
+            
+        });
+    </script>
+}
+

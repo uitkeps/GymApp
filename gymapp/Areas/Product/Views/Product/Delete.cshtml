@@ -1,0 +1,77 @@
+﻿@model App.Models.Products.Product
+@using App.Menu
+@inject AdminSidebarService _AdminSidebarService
+
+@{
+    Layout = "_LayoutAdmin";
+    ViewData["Title"] = "Xóa sản phẩm";
+}
+
+<div class="container-fluid">
+    <h1 class="mt-4">Xóa sản phẩm</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a asp-action="Index" asp-controller="AdminCP" asp-area="AdminCP">Trang chủ</a></li>
+        <li class="breadcrumb-item active">Xóa sản phẩm</li>
+    </ol>
+    <div class="card mb-4">
+        <div class="card-header"> 
+            <a class="btn btn-success" asp-action="Index" asp-controller="Product" asp-area="Product">Danh sách sản phẩm</a>
+        </div>
+
+        <div class="card-body">
+            <div class="col-md-12">
+                <dl class="row">
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.Category.Title)
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.Category.Title)
+                    </dd>
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.ProductName)
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.ProductName)
+                    </dd>
+                    <dt class="col-sm-2">
+                        Mô tả
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.Description)
+                    </dd>
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.Author)
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.Author.UserName)
+                    </dd>
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.DateCreated)
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.DateCreated)
+                    </dd>
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.DateUpdated)
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.DateUpdated)
+                    </dd>
+                </dl>
+
+                <form asp-action="Delete">
+                    <input asp-for="ProductID" type="hidden" />
+                    <input type="submit" value="Xóa" class="btn btn-danger" />
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@{
+    _AdminSidebarService.SetActive("Product", "Index", "Product");
+}
+@section Sidebar
+{
+    @Html.Raw(_AdminSidebarService.renderHtml())
+}

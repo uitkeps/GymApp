@@ -1,0 +1,99 @@
+﻿@model IEnumerable<App.Models.Classes.Class>
+@using App.Menu
+@inject AdminSidebarService _AdminSidebarService
+
+@{
+    Layout = "_LayoutAdmin";
+    ViewData["Title"] = "Danh sách khóa tập";
+}
+
+<div class="container-fluid">
+    <h1 class="mt-4">Danh sách khóa tập</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a asp-action="Index" asp-controller="AdminCP" asp-area="AdminCP">Trang chủ</a></li>
+        <li class="breadcrumb-item active">Danh sách khóa tập</li>
+    </ol>
+    <partial name="_AlertMessage" />
+    <div class="card mb-12">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-md-6 col-xs-12">
+                    <a class="btn btn-success" asp-action="Create">Tạo mới</a>
+                </div>
+                <div class="col-md-6 col-xs-12">
+                    <form asp-action="Index" method="get">
+                        <div class="row">
+                            <div class="col-md-9">
+                                <input type="text" value="@ViewBag.Keyword" name="keyword" class="form-control" />
+                            </div>
+                            <div class="cold-md-3">
+                                <button type="submit" class="btn btn-primary">Tìm</button>
+                                <button type="button" onclick="window.location.href='/admin/class/index'" class="btn btn-dark">Reset</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>STT</th>
+                            <th>@Html.DisplayNameFor(model => model.ClassTitle)</th>
+                            <th>@Html.DisplayNameFor(model => model.ClassDate)</th>
+                            <th>@Html.DisplayNameFor(model => model.ClassPeriod)</th>
+                            <th>@Html.DisplayNameFor(model => model.ClassCost)</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @(++ViewBag.classIndex)
+                                </td>
+                                <td>
+                                    <a asp-action="Edit" asp-route-id="@item.ClassId">
+                                        @Html.DisplayFor(modelItem => item.ClassTitle)
+                                    </a> 
+                                    <br>
+                                    <small>
+                                        @item.Instructor?.Name
+                                    </small>
+                
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ClassDate)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ClassPeriod)
+                                </td>
+                                <th>
+                                    @Math.Round(item.ClassCost, 0) VNĐ
+                                </th>
+                                <td>
+                                    <a class="btn btn-info btn-sm" asp-action="Details" asp-route-id="@item.ClassId">Chi tiết</a>
+                                    <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@item.ClassId">Xóa</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <partial name="_PagingProduct" model="@ViewBag.pagingModel" />
+            
+        </div>
+    </div>
+</div>
+
+@{
+    _AdminSidebarService.SetActive("Class", "Index", "Class");
+}
+@section Sidebar
+{
+    @Html.Raw(_AdminSidebarService.renderHtml())
+}

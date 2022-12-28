@@ -1,0 +1,23 @@
+﻿@model App.Models.Memberships.Membership
+<div class="mi-title">
+    <h4>@Model.Level.ToUpper()</h4>
+    <div class="triangle"></div>
+</div>
+<h2 class="mi-price">@Math.Round(Model.Fee, 0)<span>/@Model.Duration tháng</span></h2>
+<ul>
+    <li>
+        <p>Thời hạn</p>
+        <span>@Model.Duration tháng</span>
+    </li>
+
+    <li>
+        <p>Số giờ tập</p>
+        <span>@Model.Hours giờ/ ngày</span>
+    </li>
+
+    <li>
+        <p>Đặc quyền</p>
+        <span>@Model.Bonus</span>
+    </li>
+
+</ul>

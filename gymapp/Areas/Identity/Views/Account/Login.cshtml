@@ -1,0 +1,213 @@
+﻿@using System.Collections.Generic
+@using Microsoft.AspNetCore.Http
+@using Microsoft.AspNetCore.Authentication
+@using App
+@using App.Models
+@using App.Areas.Identity.Models.AccountViewModels
+@using App.Areas.Identity.Models.ManageViewModels
+@using App.Areas.Identity.Models.RoleViewModels
+@using App.Areas.Identity.Models.UserViewModels
+@using Microsoft.AspNetCore.Identity
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@model LoginViewModel
+@inject SignInManager<AppUser> SignInManager
+
+@{
+    Layout = null;
+    ViewData["Title"] = "Đăng nhập";
+}
+<!DOCTYPE html>
+<html lang="vie">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+
+    <!-- MDB -->
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/5.0.0/mdb.min.css" rel="stylesheet" /> -->
+
+    <!-- Css Styles -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/owl.carousel.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/magnific-popup.css" type="text/css">
+    <link rel="stylesheet" href="/css/slicknav.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/main.css" type="text/css">
+    <link rel="stylesheet" href="/css/base.css" type="text/css">
+    <link rel="stylesheet" href="/css/reponsive.css" type="text/css">
+
+    <style>
+        body {
+            height: 100%;
+            width: 100%;
+            /* extended code */
+            background-size: 100% 100%;
+            background-position: center center;
+            background-image: url('/img/login/Background-gym-signin.jpg');
+        }
+    </style>
+</head>
+
+<body>
+<section class="vh-100 bg-image">
+    <div class="mask d-flex align-items-center h-100 gradient-custom-3">
+        <div class="container h-100">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col-11 col-md-8 col-lg-6 col-xl-5 col-xxl-4">
+                    <div class="card" style="border-radius: 15px;">
+                        <div class="card-body login-sinup">
+                            @*<form>*@
+
+                            <h5 class="header__title-login text-uppercase text-center pb-2">ĐĂNG NHẬP</h5>
+
+                            <div class="login__with-gg text-center ">
+                                <div class="btn btn-with fw-bold" style="border: 1px solid #9999; width: 100%;">
+                                    <img class="login__with-gg-img" src="/img/login/Google__G__Logo.svg"
+                                         alt="">
+                                    Đăng nhập với google
+                                </div>
+
+                                <div class="login__another fw-bold">
+
+                                    <div class="divider text-center position-relative my-3">
+                                        <span class="line position-absolute start-0 end-0 "
+                                              style="background-color: #d4d4d4;"></span>
+
+                                        <div class="content position-relative bg-white px-3 mx-auto">
+                                            <span class="fw-bold" style="color:#8e8e8e">Hoặc</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <form asp-controller="Account" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" role="form" id="login-form">
+
+                                <div class="form-outline mb-1" asp-controller="Account" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post"role="form">
+                                    <label class="form-label" asp-for="UserNameOrEmail">Tên đăng nhập</label>
+                                    <input type="text" asp-for="UserNameOrEmail" id="username" class="form-control form-control" />
+                                </div>
+
+                                <div class="form-outline mb-1">
+                                    <label class="form-label"  asp-for="Password">Mật khẩu</label>
+                                    <input asp-for="Password" id="password" class="form-control form-control" />
+                                </div>
+
+                                <div class="form-check d-flex justify-content-start pt-3 pb-3">
+                                            
+                                    <label class="form-check-label" asp-for="RememberMe" ></label>
+                                    <input class="form-check-input me-2"  asp-for="RememberMe" />
+                                </div>
+
+                                <div class="d-flex justify-content-center">
+                                    <button id="btn-login" type="submit"
+                                            class="btn btn-primary-color btn--sinup fw-bold text-white text-uppercase">ĐĂNG NHẬP</button>
+                                </div>
+                                @if (ViewData.ModelState.ErrorCount > 0)
+                                {
+                                    <div class="d-flex justify-content-center text-danger">
+                                        <ul>
+                                            @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                                            {
+                                                <li>@error.ErrorMessage</li>
+                                            }
+                                        </ul>
+                                    </div>
+                                }
+
+
+                                <p class="text-center mt-4 mb-0"><a href="#"
+                                                                    class=" px-1 fst-italic text-body text-sm-start"><u>Quên mật
+                                    khẩu?</u></a></p>
+                                <div class="vr"></div>
+                                <p class="text-center mt-3 mb-0">Chưa có tài khoản? <a  asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]"
+                                                                                        class=" fst-italic text-body"><u>Đăng ký </u></a></p>
+
+
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+<!-- Js Plugins -->
+<script src="/js/jquery-3.3.1.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/jquery.magnific-popup.min.js"></script>
+<script src="/js/jquery.slicknav.js"></script>
+<script src="/js/owl.carousel.min.js"></script>
+<script src="/js/jquery.nice-select.min.js"></script>
+<script src="/js/mixitup.min.js"></script>
+<script src="/js/main.js"></script>
+
+<script>
+$(document).ready(function () {
+    $("#login-form").submit(function (e) {
+        e.preventDefault();
+        var username = $("#username").val();
+        var password = $("#password").val();
+        
+        if (username == "" && password == "") {
+            $("#username").addClass("is-invalid");
+            $("#password").addClass("is-invalid");
+            $("#username").focus();
+            $("#username").attr("placeholder", "Vui lòng nhập tên đăng nhập");
+            $("#password").attr("placeholder", "Vui lòng nhập mật khẩu");
+            return false;
+        } 
+        else if (username == "") {
+            $("#username").addClass("is-invalid");
+            $("#username").focus();
+            $("#username").attr("placeholder", "Vui lòng nhập tên đăng nhập");
+            return false;
+        } 
+        else if (password == "") {
+            $("#password").addClass("is-invalid");
+            $("#password").focus();
+            $("#password").attr("placeholder", "Vui lòng nhập mật khẩu");
+            return false;
+        } 
+        else {
+            $("#btn-login").attr("disabled", true);
+            $("#btn-login").html("Đang đăng nhập...");
+            $("#login-form").unbind("submit").submit();
+        }
+        
+    });
+    
+    $("#username").keyup(function () {
+        $("#username").removeClass("is-invalid");
+    });
+    
+    $("#password").keyup(function () {
+        $("#password").removeClass("is-invalid");
+    });
+});
+</script>
+
+
+</body>
+
+</html>

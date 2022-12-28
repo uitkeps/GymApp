@@ -1,0 +1,291 @@
+﻿@using App.Models.Memberships
+@using App.Models.Classes
+@{
+    ViewData["Title"] = "Trang chủ";
+    var memberships = ViewBag.memberships as IEnumerable<Membership>;
+    var classes = ViewBag.classes as IEnumerable<Class>;
+    var instructors = ViewBag.instructors as IEnumerable<Instructor>;
+}
+
+<!-- Hero Section Begin -->
+    <section class="hero-section set-bg" data-setbg="/img/hero/h1_hero.png">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="hero-text">
+                        <span>Trung tâm chilling</span>
+                        <h1>Việc tập luyện thực sự bắt đầu khi bạn muốn dừng lại.</h1>
+                        <a href="/ve-chung-toi" class="primary-btn">TÌM HIỂU THÊM</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Hero Section End -->
+
+    <!-- About Section Begin -->
+    <section class="about-section spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="about-pic">
+                        <img src="/img/about-pic.jpg" alt="">
+                        <a href="" class="play-btn video-popup">
+                            <img src="/img/play.png" alt="">
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="about-text">
+                        <h2>Về chúng tôi</h2>
+                        <p class="first-para">Trong đời sống chúng ta, sức khoẻ giữ một vị trí hết sức quan trọng.
+                            Người xưa đã từng nói: “Có sức khoẻ là có tất cả.” Việc nâng cao sức khoẻ của mỗi
+                            cá nhân hiện nay là vấn đề rất được đề cao. Nắm được nhu cầu, vị trí và tầm quan
+                            trọng của sức khoẻ mà nhiều cá nhân, doanh nghiệp liên tục xây dựng và phát triển
+                            các hệ thống phòng tập thể hình, phòng tập gym,... tại các thành phố lớn như
+                            TPHCM, Hà Nội và cả ở những tỉnh thành nhỏ hơn. Vì nhu cầu của người tiêu dùng
+                            hiện nay rất cao đối với hệ thống tập thể hình, số người đến các phòng tập dần dần
+                            tăng để trải nghiệm những thiết bị tiên tiến, hiện đại nhất, kéo theo đó chính là sự
+                            cạnh tranh giữa các phòng tập với nhau nhằm lôi kéo khách hàng trải nghiệm những
+                            dịch vụ tốt nhất với giá cả hợp lý.</p>
+                        <p class="second-para">Vì nhu cầu của người tiêu dùng
+                            hiện nay rất cao đối với hệ thống tập thể hình, số người đến các phòng tập dần dần
+                            tăng để trải nghiệm những thiết bị tiên tiến.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- About Section End -->
+
+    <!-- Services Section Begin -->
+    <section class="services-section">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="services-pic">
+                        <img src="/img/hero/slider-bg-2.jpg" alt="">
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="service-items">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="services-item bg-gray">
+                                    <img src="/img/services/service-icon-1.png" alt="">
+                                    <h4>Tăng chiều cao</h4>
+                                    <p>Cơ hội trải nghiệm nhiều môn tập tư cơ bản đến nâng cao tại chilling.</p>
+                                </div>
+                                <div class="services-item bg-gray pd-b">
+                                    <img src="/img/services/service-icon-3.png" alt="">
+                                    <h4>Yoga</h4>
+                                    <p>Cơ hội trải nghiệm nhiều môn tập tư cơ bản đến nâng cao tại chilling.</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="services-item">
+                                    <img src="/img/services/service-icon-2.png" alt="">
+                                    <h4>Gym</h4>
+                                    <p>Cơ hội trải nghiệm nhiều môn tập tư cơ bản đến nâng cao tại chilling.</p>
+                                </div>
+                                <div class="services-item pd-b">
+                                    <img src="/img/services/service-icon-4.png" alt="">
+                                    <h4>Giảm cân </h4>
+                                    <p>Cơ hội trải nghiệm nhiều môn tập tư cơ bản đến nâng cao tại chilling.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Services Section End -->
+
+    <!-- Classes Section Begin -->
+    <section class="classes-section spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="section-title">
+                        <h2>LỚP HỌC</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="row classes-slider owl-carousel">
+                @foreach (var item in classes)
+                {
+                    <div class="col-lg-4">
+                        
+                        @if(item.PhotoUrl != null)
+                        {
+                            <div class="single-class-item set-bg" data-setbg="/images/@item.PhotoUrl">
+                                <div class="si-text">
+                                    <h4>@item.ClassTitle</h4>
+                                    <span><i class="fa fa-user"></i> @item.Instructor.Name</span>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="single-class-item set-bg" data-setbg="/contents/nophoto.png">
+                                <div class="si-text">
+                                    <h4>@item.ClassTitle</h4>
+                                    <span><i class="fa fa-user"></i> @item.Instructor.Name</span>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+    </section>
+    <!-- Classes Section End -->
+
+    <!-- Trainer Section Begin -->
+    <section class="card-section spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="section-title">
+                        <h2>HUẤN LUYỆN VIÊN</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+            @foreach(var instructor in instructors)
+            {
+                <div class="col-lg-4 col-md-6 ">
+                    <div class="single-card-item">
+                        <img src="/img/trainer/about-trainer-4.png">
+                        <div class="card-text">
+                            <h5>@instructor.Name</h5>
+                            <span>@instructor.Expertise</span>
+                            <p>Mô tả</p>
+                        </div>
+                    </div>
+                </div>
+            }
+
+            </div>
+        </div>
+    </section>
+    <!-- Trainer Section End -->
+
+    <!-- Testimonial Section Begin -->
+    <section class="testimonial-section spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="section-title">
+                        <h2>Phản hồi</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-10 offset-lg-1">
+                    <div class="testimonial-slider owl-carousel">
+                        <div class="testimonial-item">
+                            <p>Nội dung phản hồi</p>
+                            <div class="ti-pic">
+                                <img src="/img/member.jpg" alt="">
+                                <div class="quote">
+                                    <!-- <img src="img/testimonial/quote-left.png" alt=""> -->
+                                </div>
+                            </div>
+                            <div class="ti-author">
+                                <h4>Tên khách hàng</h4>
+                                <span>môn tập</span>
+                            </div>
+                        </div>
+                        <div class="testimonial-item">
+                            <p>Nội dung phản hồi</p>
+                            <div class="ti-pic">
+                                <img src="/img/member.jpg" alt="">
+                                <div class="quote">
+                                    <!-- <img src="img/testimonial/quote-left.png" alt=""> -->
+                                </div>
+                            </div>
+                            <div class="ti-author">
+                                <h4>Tên khách hàng</h4>
+                                <span>môn tập</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Testimonial Section End -->
+
+    <!-- Banner Section Begin -->
+    <section class="banner-section set-bg" data-setbg="/img/hero/sever-pic.jpg">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 mb-5">
+                    <div class="banner-text">
+                        <h2>THAM GIA VỚI CHÚNG TÔI NGAY</h2>
+                        <p>Để trải nghiệm dịch vụ tuyệt vời cùng huấn luyện viên nhiệt tình, giàu kinh nghiệm.</p>
+                        <a href="#" class="primary-btn banner-btn">TÌM HIỂU</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+    <!-- Banner Section End -->
+
+    <!-- Membership Section Begin -->
+    <section class="membership-section spad">
+        <div class="container set-color">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="section-title">
+                        <h2>GÓI DỊCH VỤ</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="row ">
+                @foreach (var membership in memberships)
+                {
+                    <div class="col-lg-4">
+                        <div class="membership-item">
+                            <div class="mi-title">
+                                <h4>@membership.Level.ToUpper()</h4>
+                                <div class="triangle"></div>
+                            </div>
+                                <h2 class="mi-price">@Math.Round(membership.Fee, 0)<span>/@membership.Duration tháng</span></h2>
+                            <ul>
+                                <li>
+                                    <p>Thời hạn</p>
+                                    <span>@membership.Duration tháng</span>
+                                </li>
+
+                                <li>
+                                    <p>Số giờ tập</p>
+                                    <span>@membership.Hours giờ/ ngày</span>
+                                </li>
+
+                            </ul>
+                            <li class="pt-2">
+                                <a href="/dich-vu" class="primary-btn membership-btn">Bắt đầu ngay</a>
+                            </li>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </section>
+    <!-- Membership Section End -->
+
+
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+            $('.mainmenu').find('li').removeClass('active');
+            $('.mainmenu').find('li').eq(0).addClass('active');
+        });
+    </script>
+}
+                                

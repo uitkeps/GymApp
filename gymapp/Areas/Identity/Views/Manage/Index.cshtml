@@ -1,0 +1,272 @@
+﻿@model IndexViewModel
+@{
+    ViewData["Title"] = "Thông tin tài khoản";
+    Layout = "_LayoutUser";
+    var ChangePasswordModel = ViewBag.ChangePassword as ChangePasswordViewModel;
+}
+
+<!-- Breadcrumb Section Begin -->
+<section class="breadcrumb-section set-bg" data-setbg="/img/breadcrumb/classes-breadcrumb.jpg">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumb-text">
+                    <h2>TÀI KHOẢN</h2>
+                    <div class="breadcrumb-option">
+                        <a asp-action="Index" asp-controller="Home"><i class="fa fa-home"></i> Trang chủ</a>
+                        <span>Giỏ hàng</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Breadcrumb Section End -->
+
+<section class=" account-detail-section spad">
+<!-- <div class="container"> -->
+    <div class="bg-white rounded-lg d-block d-sm-flex">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-4 col-lg-3 pb-5">
+                    <div class="profile-tab-nav border">
+                        <div class="profile-setting">
+                            <div class="img-circle text-center mb-3">
+                                <img src="/img/member.jpg" alt="Image" class="shadow">
+                            </div>
+                            <h4 class="text-center">@Model.profile.FullName</h4>
+                        </div>
+                        <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist"
+                             aria-orientation="vertical">
+                            <a class="nav-link active" id="account-tab" data-toggle="pill" href="#info_account"
+                               role="tab" aria-controls="account" aria-selected="true">
+                                <i class="fa fa-home text-center mr-1"></i>
+                                Tài khoản
+                            </a>
+                            <a class="nav-link" id="password-tab" data-toggle="pill" href="#password" role="tab"
+                               aria-controls="password" aria-selected="false">
+                                <i class="fa fa-key text-center mr-1"></i>
+                                Mật khẩu
+                            </a>
+                            <!-- <a class="nav-link" id="security-tab" data-toggle="pill" href="#security" role="tab"
+                                    aria-controls="security" aria-selected="false">
+                                <i class="fa fa-user text-center mr-1"></i>
+                                Security
+                            </a> -->
+                            <a class="nav-link" id="application-tab" data-toggle="pill" href="#ordered" role="tab"
+                               aria-controls="application" aria-selected="false">
+                                <i class="fa fa-tv text-center mr-1"></i>
+                                Đơn hàng
+                            </a>
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="col-xl-8 col-lg-9 pb-5">
+                    <div class="tab-content account-details pl-3" id="v-pills-tabContent">
+                        <div class="tab-pane fade show active" id="info_account" role="tabpanel"aria-labelledby="account-tab">
+                            <h3 class="mb-4">Cài đặt tài khoản</h3>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group account-deatil">
+                                        <label>Họ Tên</label>
+                                        <input asp-for="profile.FullName" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group account-deatil">
+                                        <label>Tên đăng nhập</label>
+                                        <input asp-for="profile.UserName" class="form-control">
+                                    </div>
+                                </div>
+    
+                                <div class="col-md-6">
+                                    <div class="form-group account-deatil">
+                                        <label>Email</label>
+                                        <input asp-for="profile.UserEmail" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group account-deatil">
+                                        <label>Số điện thoại</label>
+                                        <input asp-for="profile.PhoneNumber" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group account-deatil">
+                                        <label>Địa chỉ</label>
+                                        <textarea asp-for="profile.HomeAdress" class="form-control" rows="4"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <button class="btn btn-primary account-details">Cập nhật</button>
+                                <button class="btn btn-light account-details">Hủy</button>
+                            </div>
+                        </div>
+                    
+                        <div class="tab-pane fade" id="password" role="tabpanel" aria-labelledby="password-tab">
+                            <h3 class="mb-4">Đặt lại mặt khẩu</h3>
+                            <div id="msgChangePassword"></div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group account-deatil">
+                                        <label>Mật khẩu cũ</label>
+                                        <input type="password" id="oldPassword" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group account-deatil">
+                                        <label>Mật khẩu mới</label>
+                                        <input type="password" id="newPassword" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group account-deatil">
+                                        <label>Xác nhận mật khẩu</label>
+                                        <input type="password" id="confirmPassword" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <button class="btn btn-primary account-details" id="btn-submit">Đặt lại</button>
+                                <button class="btn btn-light account-details" id="btn-password-cancel">Hủy</button>
+                            </div>
+                        </div>
+    
+                
+
+                        <div class="tab-pane fade" id="ordered" role="tabpanel" aria-labelledby="application-tab">
+                            <div class="col-8">
+                                <h2>Đơn hàng của bạn</h2>
+                                <div >
+                                    <table class="table table-responsive col-6">
+                                        <thead>
+                                        <tr>
+                                            <td>Đơn hàng</td>
+                                            <td>Ngày đặt hàng</td>
+                                            <td>Địa chỉ</td>
+                                            <td>Giá trị đơn hàng</td>
+                                        </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                                <p>Không có đơn hàng nào</p>
+                            </div>
+                            
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+<!-- </div> -->
+</section>
+
+@section Scripts {
+    <script>
+                $("#btn-password-cancel").click(function () {
+                $("#oldPassword").val("");
+                $("#newPassword").val("");
+                $("#confirmPassword").val("");
+            });
+            
+            $("#btn-submit").on("click", function () {
+                var oldPassword = $("#oldPassword").val();
+                var newPassword = $("#newPassword").val();
+                var confirmPassword = $("#confirmPassword").val();
+                
+                var temp = true;
+                 if (oldPassword == "") {
+                     $("#oldPassword").addClass("is-invalid");
+                     $("#oldPassword").focus();
+                     $("#oldPassword").attr("placeholder", "Vui lòng nhập mật khẩu cũ");
+                     temp = false;
+                 }
+                 else {
+                     $("#oldPassword").removeClass("is-invalid");
+                 }
+
+                 if (newPassword == "") {
+                     $("#newPassword").addClass("is-invalid");
+                     $("#newPassword").focus();
+                     $("#newPassword").attr("placeholder", "Vui lòng nhập mật khẩu mới");
+                     temp = false;
+                 }
+                 else {
+                     $("#newPassword").removeClass("is-invalid");
+                 }
+
+                 if (confirmPassword == "") {
+                     $("#confirmPassword").addClass("is-invalid");
+                     $("#confirmPassword").focus();
+                     $("#confirmPassword").attr("placeholder", "Vui lòng nhập lại mật khẩu mới");
+                     temp = false;
+                     }
+                 else {
+                     $("#confirmPassword").removeClass("is-invalid");
+                 }
+
+                 if (newPassword != confirmPassword) {
+                     $("#confirmPassword").addClass("is-invalid");
+                     $("#confirmPassword").focus();
+                     $("#confirmPassword").val("");
+                     $("#confirmPassword").attr("placeholder", "Mật khẩu không khớp");
+                        temp = false;
+                 }
+                 else {
+                     $("#confirmPassword").removeClass("is-invalid");
+                 }
+                
+                
+                if (temp == true) {
+                        var urlListPhoto = "@Url.Action("TEst", "Manage")";
+                    $.ajax({
+                        url: urlListPhoto,
+                        type: "POST",
+                        data: {
+                            oldPassword: oldPassword,
+                            newPassword: newPassword,
+                            confirmPassword: confirmPassword
+                            },
+                        success: function (data) {
+                            if (data.success == "1") {
+                                $("#oldPassword").val("");
+                                $("#newPassword").val("");
+                                $("#confirmPassword").val("");
+                                $("#oldPassword").removeClass("is-invalid");
+                                $("#oldPassword").attr("placeholder", "");
+                                $("#newPassword").removeClass("is-invalid");
+                                $("#newPassword").attr("placeholder", "");
+                                $("#confirmPassword").removeClass("is-invalid");
+                                    $("#confirmPassword").attr("placeholder", "");
+
+                                //var myDiv = document.getElementById("MyModalSuccessAlertBody");
+                                //myDiv.innerHTML = "Thay đổi mật khẩu thành công";
+                                //$('#myModalSuccess').modal('show');
+                                var html = "<div class='alert alert-success'>Thay đổi mật khẩu thành công</div>";
+                                $("#msgChangePassword").html(html);
+                            }
+                            else {
+                                $("#oldPassword").addClass("is-invalid");
+                                $("#oldPassword").focus();
+                                $("#oldPassword").val("");
+                                $("#oldPassword").attr("placeholder", "Mật khẩu cũ không đúng");
+                                
+                                    var html = "<div class='alert alert-success'>Thay đổi mật khẩu thành công</div>";
+                                    $("#msgChangePassword").html(html);
+                            }
+                        }
+                    });
+                }
+                        
+                    
+            });
+    </script>
+
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+    } 

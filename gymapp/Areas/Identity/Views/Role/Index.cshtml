@@ -1,0 +1,78 @@
+@model List<RoleModel>
+@using App.Menu
+@inject AdminSidebarService _AdminSidebarService
+@{
+    ViewData["Title"] = "Danh sách các role (vai trò)";
+}
+
+<div class="container-fluid">
+    <h1 class="mt-4">Danh sách các role</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a asp-action="Index" asp-controller="AdminCP" asp-area="AdminCP">Trang chủ</a></li>
+        <li class="breadcrumb-item active">Danh sách các role</li>
+    </ol>
+    <partial name="_StatusMessage"></partial>
+    <div class="card mb-12">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-md-6 col-xs-12">
+                    <a class="btn btn-success" asp-action="Create">Tạo mới</a>
+                    <a class="btn btn-success" asp-action="Index" asp-controller="User">Quản lý thành viên</a>
+                </div>
+                <div class="col-md-6 col-xs-12">
+                    <form asp-action="Index" method="get">
+                        <div class="row">
+                            <div class="col-md-9">
+                                <input type="text" value="@ViewBag.Keyword" name="keyword" class="form-control" />
+                            </div>
+                            <div class="cold-md-3">
+                                <button type="submit" class="btn btn-primary">Tìm</button>
+                                <button type="button" onclick="window.location.href='/User/Index'" class="btn btn-dark">Reset</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>Tên Role (vai trò)</th>
+                        <th>Tác vụ</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var role in Model)
+                        {
+                            <tr>
+                                <td>
+                                    <p>@role.Name</p>
+                                    @foreach (var claim in @role.Claims)
+                                    {
+                                        <small>@claim</small><br>
+                                    }
+                                </td>
+                                <td>
+                                    <a class="btn btn-info btn-sm" asp-action="Edit" asp-route-roleid="@role.Id">Cập nhật</a>
+                                    <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-roleid="@role.Id">Xóa</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            @*<partial name="_PagingXTL" model="@ViewBag.pagingModel" />*@
+        </div>
+    </div>
+</div>
+
+
+@{
+    _AdminSidebarService.SetActive("Role", "Index", "Identity");
+}
+@section Sidebar {
+    @Html.Raw(_AdminSidebarService.renderHtml())
+}

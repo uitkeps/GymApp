@@ -1,0 +1,59 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using App.Models
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using App.Data
+@inject SignInManager<AppUser> SignInManager
+@inject UserManager<AppUser> UserManager
+@{
+    var user = await UserManager.GetUserAsync(User);
+}
+
+@if (SignInManager.IsSignedIn(User))
+{
+    <li class="user-cart-login--mobile ">
+        <div class="sinlge-bar shopping">
+            <a asp-action="Cart" asp-controller="ViewProduct" asp-area="Product" class="single-icon" id="cart">
+                <i class="header-mid-icon fa-solid fa-cart-shopping" style=" font-size: 20px;"></i>
+                </a> <span onclick="document.getElementById('cart').click()">Giỏ hàng</span>
+
+            <partial name="_CartPartial" />
+        </div>
+    </li>
+
+    <li class="user-section-login--mobile" >
+        <div class="user-header">
+            <span class ="user-name">Tài khoản</span>
+            <a><i class=" user-icon-header fa-regular fa-user"></i></a>
+
+            <div class="user-item" style="right: -57px">
+                <div class="dropdown-user-header">
+                </div>
+                <ul class="user-list">
+                    @if (User.IsInRole(RoleName.Administrator))
+                    {
+                        <li>
+                            <a asp-action="Index" asp-controller="AdminCP" asp-area="AdminCP"><span>Khu vực quản trị</span></a>
+                        </li>
+                    }
+                    
+                    <li>
+                        <a asp-action="Index" asp-controller="Manage" asp-area="Identity">
+                            <span>Tài khoản của tôi</span></a>
+                    </li>
+
+                </ul>
+                <div class="bottom">
+                    <form asp-area="Identity" asp-controller="Account" asp-action="LogOff" method="post" id="logoutForm">
+                        <a href="#" onclick="document.getElementById('logoutForm').submit()" class="btn animate">Đăng xuất</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </li>
+}
+else
+{
+    <a asp-action="Login" asp-controller="Account" asp-area="Identity" class="primary-btn signup-btn">Đăng nhập</a>
+}
+
+    

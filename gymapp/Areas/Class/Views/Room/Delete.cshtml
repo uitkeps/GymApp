@@ -1,0 +1,58 @@
+﻿@model App.Models.Classes.Room
+@using App.Menu
+@inject AdminSidebarService _AdminSidebarService
+
+@{
+    Layout = "_LayoutAdmin";
+    ViewData["Title"] = "Xóa phòng tập";
+}
+
+<div class="container-fluid">
+    <h1 class="mt-4">Xóa phòng tập</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a asp-action="Index" asp-controller="AdminCP" asp-area="AdminCP">Trang chủ</a></li>
+        <li class="breadcrumb-item active">Xóa phòng tập</li>
+    </ol>
+    <div class="card mb-4">
+        <div class="card-header">
+            <a class="btn btn-success" asp-action="Index">Danh sách phòng tập</a>
+        </div>
+
+        <div class="card-body">
+            <div class="col-md-12">
+                <dl class="row">
+                    <dt class = "col-sm-2">
+                        Mã phòng tập
+                    </dt>
+                    <dd class = "col-sm-10">
+                        @Html.DisplayFor(model => model.RoomId)
+                    </dd>
+                    <dt class = "col-sm-2">
+                        Tên phòng tập
+                    </dt>
+                    <dd class = "col-sm-10">
+                        @Html.DisplayFor(model => model.RoomName)
+                    </dd> <dt class="col-sm-2">
+                        Sức chứa
+                    </dt>
+                    <dd class = "col-sm-10">
+                        @Html.DisplayFor(model => model.Capacity)
+                    </dd>
+                </dl>
+
+                <form asp-action="Delete">
+                    <input asp-for="RoomId" type="hidden" />
+                    <input type="submit" value="Xóa" class="btn btn-danger" />
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@{
+    _AdminSidebarService.SetActive("Room", "Index", "Class");
+}
+@section Sidebar
+    {
+    @Html.Raw(_AdminSidebarService.renderHtml())
+}

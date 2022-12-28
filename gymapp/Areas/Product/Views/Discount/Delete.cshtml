@@ -1,0 +1,58 @@
+﻿@model App.Models.Payments.Discount
+@using App.Menu
+@inject AdminSidebarService _AdminSidebarService
+
+@{
+    Layout = "_LayoutAdmin";
+    ViewData["Title"] = "Xóa mã giảm giá";
+}
+
+<div class="container-fluid">
+    <h1 class="mt-4">Xóa mã giảm giá</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a asp-action="Index" asp-controller="AdminCP" asp-area="AdminCP">Trang chủ</a></li>
+        <li class="breadcrumb-item active">Xóa mã giảm giá</li>
+    </ol>
+    <div class="card mb-4">
+        <div class="card-header">
+            <a class="btn btn-success" asp-action="Index">Danh sách mã giảm giá</a>
+        </div>
+
+        <div class="card-body">
+            <div class="col-md-12">
+                <dl class="row">
+                    <dt class = "col-sm-2">
+                        Id
+                    </dt>
+                    <dd class = "col-sm-10">
+                        @Html.DisplayFor(model => model.Id)
+                    </dd>
+                    <dt class = "col-sm-2">
+                        Mã giảm giá
+                    </dt>
+                    <dd class = "col-sm-10">
+                        @Html.DisplayFor(model => model.Code)
+                    </dd> <dt class="col-sm-2">
+                        Phần trăm
+                    </dt>
+                    <dd class = "col-sm-10">
+                        @Html.DisplayFor(model => model.Percent)
+                    </dd>
+                </dl>
+
+                <form asp-action="Delete">
+                    <input asp-for="Id" type="hidden" />
+                    <input type="submit" value="Xóa" class="btn btn-danger" />
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@{
+    _AdminSidebarService.SetActive("Discount", "Index", "Product");
+}
+@section Sidebar
+    {
+    @Html.Raw(_AdminSidebarService.renderHtml())
+}

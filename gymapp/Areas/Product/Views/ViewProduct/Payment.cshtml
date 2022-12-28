@@ -1,0 +1,219 @@
+﻿@using App.Areas.Product.Service
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model App.Models.Payments.Payment;
+@{
+    Layout = "_LayoutUser";
+    ViewData["Title"] = "Chi tiết đơn hàng";
+    var user = (AppUser)ViewBag.user;
+}
+<!-- Breadcrumb Section Begin -->
+<section class="breadcrumb-section set-bg" data-setbg="/img/breadcrumb/classes-breadcrumb.jpg">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumb-text">
+                    <h2>VỀ CHÚNG TÔI</h2>
+                    <div class="breadcrumb-option">
+                        <a asp-action="Index" asp-controller="Home"><i class="fa fa-home"></i> Trang chủ</a>
+                        <a>Giỏ hàng</a><span> Xác nhận đơn hàng</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Breadcrumb Section End -->
+
+<section class="ftco-section spad">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-xl-7 ftco-animate">
+                <form action="#" class="billing-form">
+                    <h3 class="mb-4 billing-heading">Chi tiết đơn hàng</h3>
+                    <div class="row align-items-end">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="firstname">Họ và tên</label>
+                                <input type="text" class="form-control" placeholder="Nhập họ và tên..." id="hoten">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="lastname">Email</label>
+                                <input type="email" id="email" class="form-control" placeholder="Nhập email...">
+                            </div>
+                        </div>
+                        <div class="w-100"></div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="country">Địa chỉ</label>
+                                <div class="select-wrap">
+                                    <div class="icon"><span class="ion-ios-arrow-down"></span></div>
+                                    <select name="" id="diachi" class="form-control">
+                                        <option value="">Hồ chí minh</option>
+                                        <option value="">Gia lai</option>
+                                        <option value="">Dắk lắk</option>
+                                        <option value="">Hà nội</option>
+                                        <option value="">Lâm đồng</option>
+                                        <option value="">Đà lạt</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w-100"></div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label> Số điện thoại</label>
+                                <input type="text" id="sdt" class="form-control" placeholder="Nhập số điện thoại...">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="data-setbg" asp-for="DateCreated" >Ngày đặt hàng</label>
+                                <input type="datetime" id="ngdat" class="form-control"asp-for="DateCreated" value="@DateTime.Today.ToString("yyyy-MM-dd")" >
+                            </div>
+                        </div>
+                    </div>
+                </form><!-- END -->
+            </div>
+            <div class="col-xl-5">
+                <div class="row mt-5 pt-3">
+                    <div class="col-md-12 d-flex mb-5">
+                        <div class="cart-detail cart-total p-3 p-md-4">
+                            <h3 class="billing-heading mb-4">Tổng đơn hàng</h3>
+                            <p class="d-flex">
+                                <span>Chi phí</span>
+                                <span>@Math.Round(ViewBag.totalOld)đ</span>
+                            </p>
+                            <p class="d-flex">
+                                <span>Phí vận chuyển</span>
+                                <span>0đ</span>
+                            </p>
+                            <p class="d-flex">
+                                <span>Giảm giá</span>
+                                <span>@Math.Round(ViewBag.discountPrice)đ</span>
+                            </p>
+                            <hr>
+                            <p class="d-flex total-price">
+                                <span>Tổng</span>
+                                <span>@Math.Round(ViewBag.total)đ</span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="cart-detail p-3 p-md-4">
+                            <h3 class="billing-heading mb-4">Phương thức thanh toán</h3>
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <div class="radio">
+                                        <label><input type="radio" name="optradio" class="mr-2" value="paypal"><i class="fa-brands fa-cc-paypal"></i> Thanh toán bằng paypal</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <div class="radio">
+                                        <label><input type="radio" name="optradio" class="mr-2" value="trasau"><i class="fa-solid fa-wallet"></i> Trả sau</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <div class="checkbox">
+                                        <label><input type="checkbox" id="dieukhoan" value="" class="mr-2"> Tôi chấp nhận với mọi điều khoản</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <p><button id="btn-tt" class="btn btn-primary btn-cart py-3 px-4" disabled="disabled">Đặt hàng</button></p>
+                        </div>
+                    </div>
+                </div>
+            </div> 
+            <!-- .col-md-8 -->
+        </div>
+    </div>
+</section> 
+<!-- .section -->
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        $(document).ready(function () {
+            $('input[name="optradio"]').click(function () {
+               var result = $("input[name='optradio']:checked").parent().text();
+               $("#paymentmode").val(result);
+            });
+
+            $("#dieukhoan").click(function () {
+                if ($("#dieukhoan").is(":checked")) {
+                    $("#btn-tt").removeAttr('disabled');
+                }
+                else {
+                    //alert("Bạn chưa chấp nhận điều khoản");
+                    $("#btn-tt").attr('disabled', 'disabled');
+                }
+                });
+
+            $("#btn-tt").on("click", function () {
+                var optradio = $("input[name='optradio']:checked").val();
+                var hoten = $("#hoten").val();
+                var diachi = $("#diachi option:selected").text();
+                var sdt = $("#sdt").val();
+                var ngdat = $("#ngdat").val();
+                var email = $("#email").val();
+                
+                var temp = true;
+                var regexPhone = /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/;
+                var regexEmail = /^([\w-\.]+@@([\w-]+\.)+[\w-]{2,4})?$/;
+                if (hoten == "" || diachi == "" || sdt == "" || ngdat == "" || email == "") {
+                    alert("Vui lòng nhập đầy đủ thông tin");
+                    temp = false;
+                    } 
+                else if(!regexPhone.test(sdt) || sdt.length != 10)
+                {
+                    alert("Số điện thoại không hợp lệ");
+                    temp = false;
+                }
+                else if(!regexEmail.test(email))
+                {
+                    alert("Email không hợp lệ");
+                    temp = false;
+                }
+
+                
+                
+                
+                if(temp == false) {
+                    return false;
+                } 
+                                    
+                
+                
+                $.ajax({
+                    url: "/luu-thong-tin-dat-hang",
+                    type: "POST",
+                    data: {
+                        diachi: diachi,
+                        hoten: hoten,
+                        sodienthoai: sdt,
+                        email: email,
+                        ngaydathang: ngdat
+                    },
+                    success: function () {
+                    }
+                });
+                        
+                if (optradio == "paypal") {
+                    $(location).prop('href', '/thanh-toan-paypal')
+                }
+                else if (optradio == "trasau") {
+                    $(location).prop('href', '/xac-nhan-don-hang')
+                }
+                else {
+                    alert("Vui lòng chọn phương thức thanh toán");
+                }
+            });
+        });
+    </script>
+}
